@@ -232,7 +232,7 @@ object DbGeneratorUtil {
     sb.append(s" enum ${enumClassName.trim.replaceAll("\n","").replaceAll("\r","")} { \n")
     enums.foreach(enum => {
       //val enumUpper = enum._2.toCharArray.map(i => if (i.isUpper) s"_${i}" else i.toUpper.toString).mkString("")
-      val enumUpper = enum.nameEn.toUpperCase
+      val enumUpper = camelToUnderscore(enum.nameEn).toUpperCase
       println(s" enumUpper: ${enumUpper}{")
       sb.append(s"""\t/**${enum.nameCn}*/\n""")
       sb.append(s"""\t${enumUpper} = ${enum.index}\n""")
@@ -319,6 +319,38 @@ object DbGeneratorUtil {
     }).mkString("")
     camel.replaceFirst(s"${camel.charAt(0)}", s"${camel.charAt(0).toLower}")
   }
+
+  // userName -> user_name
+  def camelToUnderscore(camelName: String): String = {
+    val builder = StringBuilder.newBuilder
+
+    var pos = 0
+    var isLastUpper = false
+
+    assert(camelName.length >= 1)
+
+    var first = camelName.charAt(0)
+    builder.append(first)
+    isLastUpper = first >= 'A' && first <= 'Z'
+
+    pos += 1
+    while(pos < camelName.length){
+      var ch = camelName.charAt(pos)
+      if(ch >= 'A' && ch <= 'Z') {
+        val lower: Char = (ch + 'a' - 'A').toChar
+        if(isLastUpper == false) builder.append('_').append(lower)
+        else builder.append(lower)
+        isLastUpper = true
+      }
+      else {
+        builder.append(ch)
+        isLastUpper = false
+      }
+      pos += 1
+    }
+    builder.toString
+  }
+
 
   /**
     * aaa_bbb => AaaBbb
