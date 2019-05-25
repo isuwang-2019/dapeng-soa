@@ -14,8 +14,6 @@ object DbGeneratorUtil {
   val singleEnumRegx = """\s*([\d]+):\s*([\u4e00-\u9fa5|\w|-]+)\(([\d|a-zA-Z|_]+)\)""".r
 
   def generateEntityFile(fileContent: String, targetPath: String, fileName: String) = {
-
-
     val file = new File(targetPath + fileName)
     val created = if (!file.getParentFile.exists()) file.getParentFile.mkdirs() else true
     println(s"generating file: ${targetPath}${file.getName}: ${created}")
@@ -25,31 +23,39 @@ object DbGeneratorUtil {
     printWriter.close()
   }
 
-  def getEnumFields(columnName: String, columnComment: String) = {
+  def getEnumFields(columnName: String, columnComment: String):List[EnumConfig] = {
     val result = columnComment match {
       case enumRegx(a, b) =>
-        val enums: Array[(String, String)] = b.split(";").map(item => {
+        val enums: Array[EnumConfig] = b.split(";").map(item => {
           item match {
             case singleEnumRegx(index, cnChars, enChars) =>
-
               //              println(s"foundEnumValue ${columnName} =>  index: ${index}  cnChars:${cnChars}  enChars: ${enChars}")
-              (index, enChars)
+              EnumConfig(index.toInt, enChars,cnChars)
             case _ => throw new ParseException(s"invalid enum format: ${columnName} -> ${item} should looks like Int:xxx(englishWord)", 0)
           }
         })
         enums.toList
       case _ =>
         //println(s" Not match enum comment, skipped....${columnComment}")
-        List[(String, String)]()
+        List[EnumConfig]()
     }
     result
   }
+
 
   def generateEnumFile(tableName: String, columnName: String, columnComment: String, targetPath: String, packageName: String, fileName: String) = {
     val enumFields = getEnumFields(columnName, columnComment)
     if (enumFields.size > 0) {
       println(s"foundEnumValue ${columnName} =>  size = ${enumFields.size}")
       generateEntityFile(toEnumFileTemplate(tableName, enumFields, packageName, columnName), targetPath, fileName)
+    }
+  }
+
+  def generateThriftEnumFile(tableName: String, columnName: String, columnComment: String, targetPath: String, packageName: String, fileName: String) = {
+    val enumFields = getEnumFields(columnName, columnComment)
+    if (enumFields.size > 0) {
+      println(s"foundEnumValue ${columnName} =>  size = ${enumFields.size}")
+      generateEntityFile(toThriftEnumFileTemplate(tableName, enumFields, packageName, columnName,columnComment), targetPath, fileName)
     }
   }
 
@@ -103,7 +109,6 @@ object DbGeneratorUtil {
     val className = toFirstUpperCamel(tableNameConvert(tableName))
     sb.append(s" namespace java ${packageName}\r\n")
 
-
     sb.append(s" struct ${className} { \r\n")
     var i=1
     columns.foreach(column => {
@@ -145,7 +150,7 @@ object DbGeneratorUtil {
     * @param enums
     * @return
     */
-  def toEnumFileTemplate(tableName: String, enums: List[(String, String)], packageName: String, columnName: String): String = {
+  def toEnumFileTemplate(tableName: String, enums: List[EnumConfig], packageName: String, columnName: String): String = {
     val sb = new StringBuilder(256)
     val enumClassName = toFirstUpperCamel(tableNameConvert(tableName)) + toFirstUpperCamel(columnName)
     sb.append(s" package ${packageName}.enum \r\n")
@@ -176,17 +181,17 @@ object DbGeneratorUtil {
     sb.append(s" object ${enumClassName} { \r\n")
     enums.foreach(enum => {
       //val enumUpper = enum._2.toCharArray.map(i => if (i.isUpper) s"_${i}" else i.toUpper.toString).mkString("")
-      val enumUpper = enum._2.toUpperCase
+      val enumUpper = enum.nameEn.toUpperCase
       println(s" enumUpper: ${enumUpper}")
-      sb.append(s"""\t val ${enumUpper} = new ${enumClassName}(${enum._1},"${enumUpper}") \r\n""")
+      sb.append(s"""\t val ${enumUpper} = new ${enumClassName}(${enum.index},"${enumUpper}") \r\n""")
     })
     sb.append(s"""\t def unknown(id: Int) = new ${enumClassName}(id, id+"") \r\n""")
 
     sb.append(s"""\t def valueOf(id: Int): ${enumClassName} = id match { \r\n""")
     enums.foreach(enum => {
       //val enumUpper = enum._2.toCharArray.map(i => if (i.isUpper) s"_${i}" else i.toUpper.toString).mkString("")
-      val enumUpper = enum._2.toUpperCase
-      sb.append(s" \t\t case ${enum._1} => ${enumUpper} \r\n")
+      val enumUpper = enum.nameEn.toUpperCase
+      sb.append(s" \t\t case ${enum.index} => ${enumUpper} \r\n")
     })
     sb.append(" \t\t case _ => unknown(id) \r\n")
     sb.append(" } \r\n")
@@ -195,6 +200,43 @@ object DbGeneratorUtil {
     sb.append(s" def unapply(v: ${enumClassName}): Option[Int] = Some(v.id) \r\n")
 
     sb.append(s" implicit object Accessor extends DbEnumJdbcValueAccessor[${enumClassName}](valueOf) \r\n")
+
+    sb.append("}")
+
+    sb.toString()
+  }
+
+
+
+  /**
+    * EnumClass content:
+    * class ${enumClassName} private(val id:Int, val name:String) extends DbEnum
+    * object ${enumClassName} {
+    * val NEW = new ${enumClassName}(0, "NEW")
+    * def unknowne(id: Int) = new OrderStatus(id, s"<$id>")
+    * def valueOf(id: Int): OrderStatus = id match {
+    * case 0 => NEW
+    * case _ => unknowne(id)
+    * }
+    * implicit object Accessor extends DbEnumJdbcValueAccessor[OrderStatus](valueOf)
+    * }
+    *
+    * @param enums
+    * @return
+    */
+  def toThriftEnumFileTemplate(tableName: String, enums: List[EnumConfig], packageName: String, columnName: String,columnComment:String): String = {
+    val sb = new StringBuilder(256)
+    val enumClassName = toFirstUpperCamel(tableNameConvert(tableName)) + toFirstUpperCamel(columnName)
+    sb.append(s"namespace java com.ipolymer.soa.order.stock.domain \n\n")
+    sb.append(s"/**${columnComment}*/ \n")
+    sb.append(s" enum ${enumClassName.trim.replaceAll("\n","").replaceAll("\r","")} { \n")
+    enums.foreach(enum => {
+      //val enumUpper = enum._2.toCharArray.map(i => if (i.isUpper) s"_${i}" else i.toUpper.toString).mkString("")
+      val enumUpper = enum.nameEn.toUpperCase
+      println(s" enumUpper: ${enumUpper}{")
+      sb.append(s"""\t/**${enum.nameCn}*/\n""")
+      sb.append(s"""\t${enumUpper} = ${enum.index}\n""")
+    })
 
     sb.append("}")
 
@@ -382,6 +424,24 @@ object DbGeneratorUtil {
     else tableName
   }
 
+  def generateThriftFile(tableName: String, db: String, connection: Connection, packageName: String, baseTargetPath: String): Unit = {
+    val separator = System.getProperty("file.separator")
+    val columns = getTableColumnInfos(tableName.toLowerCase, db, connection)
+    val dbClassTemplate = toDbClassTemplate(tableName, packageName, columns)
+    val targetPath = baseTargetPath + "src"+separator+"main"+ separator +"scala"+ separator + packageName.split("\\.").mkString(separator) + separator
+    val dbThriftTemplate = toThriftTemplate(tableName,packageName,columns)
+    val thriftPath = baseTargetPath + "src"+separator+"main"+ separator +"resources"+separator+ "thrift" + separator
+
+    if(!dbThriftTemplate.equals("")) {
+      generateEntityFile(dbThriftTemplate, thriftPath, s"${tableName}.thrift")
+    }
+
+    columns.foreach(column => {
+      generateThriftEnumFile(tableName, column._1, column._3, thriftPath , packageName, s"${toFirstUpperCamel(tableNameConvert(tableName)) + toFirstUpperCamel(column._1)}.thrift")
+    })
+  }
+
+
   def generateDbClass(tableName: String, db: String, connection: Connection, packageName: String, baseTargetPath: String): Unit = {
 
     val separator = System.getProperty("file.separator")
@@ -401,6 +461,27 @@ object DbGeneratorUtil {
     })
   }
 
+
+  def generateThrift(tableName: String, db: String, connection: Connection, packageName: String, baseTargetPath: String): Unit = {
+
+    val separator = System.getProperty("file.separator")
+    val columns = getTableColumnInfos(tableName.toLowerCase, db, connection)
+    val dbClassTemplate = toDbClassTemplate(tableName, packageName, columns)
+    val targetPath = baseTargetPath + "src"+separator+"main"+ separator +"scala"+ separator + packageName.split("\\.").mkString(separator) + separator
+    val dbThriftTemplate = toThriftTemplate(tableName,packageName,columns)
+    val thriftPath = baseTargetPath + "src"+separator+"main"+ separator +"resources"+separator+ "thrift" + separator
+
+    generateEntityFile(dbClassTemplate, targetPath, s"${toFirstUpperCamel(tableNameConvert(tableName))}.scala")
+    if(!dbThriftTemplate.equals("")) {
+      generateEntityFile(dbThriftTemplate, thriftPath, s"${tableName}.thrift")
+    }
+
+    columns.foreach(column => {
+      generateThriftEnumFile(tableName, column._1, column._3, targetPath + "enum/", packageName, s"${toFirstUpperCamel(tableNameConvert(tableName)) + toFirstUpperCamel(column._1)}.scala")
+    })
+  }
+
+
   def loadSystemProperties(file: File): Unit = {
     if (file.canRead) {
       val properties = new Properties()
@@ -414,4 +495,5 @@ object DbGeneratorUtil {
   }
 
 
+  case class EnumConfig(index:Int,nameEn:String,nameCn:String)
 }
