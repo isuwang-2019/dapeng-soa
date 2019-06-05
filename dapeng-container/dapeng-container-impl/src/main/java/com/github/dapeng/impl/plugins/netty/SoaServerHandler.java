@@ -144,7 +144,7 @@ public class SoaServerHandler extends ChannelInboundHandlerAdapter {
 
                     LOGGER.debug(getClass().getSimpleName() + "::processRequest " + debugLog);
                 }
-                throw new SoaException(SoaCode.ServerReqTimeOut, "服务端请求超时");
+                throw new SoaException(SoaCode.ServerReqTimeOut, "service read time out");
             }
 
             Application application = container.getApplication(new ProcessorKey(soaHeader.getServiceName(), soaHeader.getVersionName()));

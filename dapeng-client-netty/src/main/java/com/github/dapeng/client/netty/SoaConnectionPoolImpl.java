@@ -71,14 +71,14 @@ public class SoaConnectionPoolImpl implements SoaConnectionPool {
         ZkServiceInfo serviceInfo = clientRefManager.serviceInfo(service);
         if (serviceInfo == null) {
             logger.error(getClass() + "::send serviceInfo not found: " + service);
-            throw new SoaException(SoaCode.NotFoundServer, "服务 [ " + service + " ] 无可用实例");
+            throw new SoaException(SoaCode.NotFoundServer, "service [ " + service + " ] serviceInfo not found");
         }
 
         SoaConnection connection = retryFindConnection(serviceInfo, version, method);
         // 选好的服务版本(可能不同于请求的版本)
         String serverVersion = InvocationContextImpl.Factory.currentInstance().versionName();
         if (connection == null) {
-            throw new SoaException(SoaCode.NotFoundServer, "服务 [ " + service + " ] 无可用实例");
+            throw new SoaException(SoaCode.NotFoundServer, "service  [ " + service + " ] service info not found ");
         }
         long timeout = getTimeout(serviceInfo, method);
         if (logger.isDebugEnabled()) {
@@ -97,14 +97,14 @@ public class SoaConnectionPoolImpl implements SoaConnectionPool {
         ZkServiceInfo serviceInfo = clientRefManager.serviceInfo(service);
         if (serviceInfo == null) {
             logger.error(getClass() + "::sendAsync serviceInfo not found: " + service);
-            throw new SoaException(SoaCode.NotFoundServer, "服务 [ " + service + " ] 无可用实例");
+            throw new SoaException(SoaCode.NotFoundServer,  "service [ " + service + " ] serviceInfo not found");
         }
 
         SoaConnection connection = retryFindConnection(serviceInfo, version, method);
 
         String serverVersion = InvocationContextImpl.Factory.currentInstance().versionName();
         if (connection == null) {
-            throw new SoaException(SoaCode.NotFoundServer, "服务 [ " + service + " ] 无可用实例");
+            throw new SoaException(SoaCode.NotFoundServer, "service  [ " + service + " ] service info not found");
         }
         long timeout = getTimeout(serviceInfo, method);
         if (logger.isDebugEnabled()) {
@@ -152,7 +152,7 @@ public class SoaConnectionPoolImpl implements SoaConnectionPool {
 
         if (checkVersionInstances.isEmpty()) {
             logger.error(getClass().getSimpleName() + "::findConnection[service: " + serviceInfo.serviceName() + ":" + version + "], not found available version of instances");
-            throw new SoaException(NoMatchedService, "服务 [ " + serviceInfo.serviceName() + ":" + version + "] 无可用实例:没有找到对应的服务版本");
+            throw new SoaException(NoMatchedService, "service [ " + serviceInfo.serviceName() + ":" + version + "]  not found available version of instances");
         }
         // router
         // 把路由需要用到的条件放到InvocationContext中
@@ -162,14 +162,14 @@ public class SoaConnectionPoolImpl implements SoaConnectionPool {
 
         if (routedInstances == null || routedInstances.isEmpty()) {
             logger.error(getClass().getSimpleName() + "::findConnection[service: " + serviceInfo.serviceName() + "], not found available instances by routing rules");
-            throw new SoaException(NoMatchedRouting, "服务 [ " + serviceInfo.serviceName() + " ] 无可用实例:路由规则没有解析到可运行的实例");
+            throw new SoaException(NoMatchedRouting, "service [ " + serviceInfo.serviceName() + " ] not found available instances by routing rules");
         }
 
         //loadBalance
         RuntimeInstance inst = loadBalance(method, serviceInfo, routedInstances);
         if (inst == null) {
             // should not reach here
-            throw new SoaException(NotFoundServer, "服务 [ " + serviceInfo.serviceName() + " ] 无可用实例:负载均衡没有找到合适的运行实例");
+            throw new SoaException(NotFoundServer, "service  [ " + serviceInfo.serviceName() + " ] not found : Load balancing did not find a suitable running instance");
         }
 
         inst.increaseActiveCount();

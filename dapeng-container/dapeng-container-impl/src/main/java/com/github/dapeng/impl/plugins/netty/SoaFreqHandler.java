@@ -36,7 +36,8 @@ public class SoaFreqHandler extends ChannelInboundHandlerAdapter {
             if (freqResult) {
                 ctx.fireChannelRead(msg);
             } else {
-                throw new SoaException(SoaCode.FreqLimited, "当前服务在一定时间内请求次数过多，被限流");
+                //当前服务在一定时间内请求次数过多，被限流
+                throw new SoaException(SoaCode.FreqLimited, "The current service requests too many times over a certain period of time and is limited to the stream");
             }
         }
     }

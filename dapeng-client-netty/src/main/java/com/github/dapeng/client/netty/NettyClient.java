@@ -151,7 +151,7 @@ public class NettyClient {
                 MDC.remove(SoaSystemEnvProperties.KEY_LOGGER_SESSION_TID);
             }
             LOGGER.error("请求服务超时[" + service + "]，seqid:" + seqid);
-            throw new SoaException(SoaCode.ReqTimeOut.getCode(), "请求服务超时[" + service + "]");
+            throw new SoaException(SoaCode.ReqTimeOut.getCode(), "service [" + service + "] request time out");
         } catch (Throwable e) {
             // 如果在服务里面, 那么不清理MDC
             if (!TransactionContext.hasCurrentInstance()) {

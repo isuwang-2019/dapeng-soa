@@ -50,7 +50,7 @@ public class InvocationContextUtils {
 
         if (zkServiceInfo == null) {
             logger.error(InvocationContextUtils.class + "::injectCookie serviceInfo not found: " + service);
-            throw new SoaException(SoaCode.NotFoundServer, "服务 [ " + service + " ] 无可用实例");
+            throw new SoaException(SoaCode.NotFoundServer, "service [ " + service + " ] serviceInfo not found");
         }
 
         List<CookieRule> cookieRules = zkServiceInfo.cookieRules();
