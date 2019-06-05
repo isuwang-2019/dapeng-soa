@@ -23,13 +23,20 @@ public class OptimizedMetadata {
         final Map<String, TEnum> enumMap = new HashMap<>(128);
 
         public OptimizedService(Service service) {
+            assert(service!=null);
+            assert(service.structDefinitions!=null);
+            assert(service.methods!=null);
             this.service = service;
             for (Struct struct : service.structDefinitions) {
                 optimizedStructs.put(struct.namespace + "." + struct.name, new OptimizedStruct(struct));
             }
-            for (TEnum tEnum : service.enumDefinitions) {
-                enumMap.put(tEnum.namespace + "." + tEnum.name, tEnum);
+
+            if(service.enumDefinitions!=null ){
+                for (TEnum tEnum : service.enumDefinitions) {
+                    enumMap.put(tEnum.namespace + "." + tEnum.name, tEnum);
+                }
             }
+
             for (Method method: service.methods) {
                 methodMap.put(method.name, method);
                 optimizedStructs.put(method.request.namespace + "." + method.request.name, new OptimizedStruct(method.request));
