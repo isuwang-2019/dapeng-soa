@@ -13,19 +13,19 @@ public enum SoaCode implements SoaBaseCodeInterface {
     //没有对应的服务版本
     NoMatchedVersion("Err-Core-403", "No corresponding service version"),
     //无可用的服务实例
-    NotFoundServer("Err-Core-404", "No service instance available\n"),
+    NotFoundServer("Err-Core-404", "No service instance available"),
     //没有对应的方法
-    NoMatchedMethod("Err-Core-405", "No corresponding method\n"),
+    NoMatchedMethod("Err-Core-405", "No corresponding method"),
     //连接失败
     NotConnected("Err-Core-406", "Connection failed"),
     //请求超时
     ReqTimeOut("Err-Core-407", "Request timed out"),
     //请求对象字段不允许为空
-    ReqFieldNull("Err-Core-411", "Request object field is not allowed to be empty\n"),
+    ReqFieldNull("Err-Core-411", "Request object field is not allowed to be empty"),
     //响应对象字段不允许为空
-    RespFieldNull("Err-Core-412", "Response object field is not allowed to be empty\n"),
+    RespFieldNull("Err-Core-412", "Response object field is not allowed to be empty"),
     //响应通讯包解析出错
-    RespDecodeError("Err-Core-413", "Respond to communication packet parsing error\n"),
+    RespDecodeError("Err-Core-413", "Respond to communication packet parsing error"),
     //响应通讯包未知异常
     RespDecodeUnknownError("Err-Core-414", "The communication package is unknown, and the API version may be inconsistent."),
 
@@ -57,7 +57,7 @@ public enum SoaCode implements SoaBaseCodeInterface {
     //限流处理出错
     FreqControlError("Err-Core-523", "Current limit processing error"),
     //服务容器不在运行状态
-    ContainerStatusError("Err-Core-524", "Service container is not running\n"),
+    ContainerStatusError("Err-Core-524", "Service container is not running"),
     // 通用错误码
     StructFieldNull("Err-Core-600", "Structure field is not allowed to be empty");
     private String code;
