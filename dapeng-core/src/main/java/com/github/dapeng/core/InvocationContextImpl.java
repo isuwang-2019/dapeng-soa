@@ -212,6 +212,12 @@ public class InvocationContextImpl implements InvocationContext {
         return this;
     }
 
+    public Integer transactionId(){ return this.transactionId;}
+
+    public Integer transactionSequence(){
+        return this.transactionSequence.orElse(0);
+    }
+
     @Override
     public InvocationContext transactionSequence(Integer currentTransactionSequence) {
         this.transactionSequence = Optional.ofNullable(currentTransactionSequence);
@@ -435,6 +441,12 @@ public class InvocationContextImpl implements InvocationContext {
                     }
                     if (oriHeader.getUserIp().isPresent()) {
                         context.userIp(oriHeader.getUserIp().get());
+                    }
+                    if(oriHeader.getTransactionId().isPresent()){
+                        context.transactionId(oriHeader.getTransactionId().get());
+                    }
+                    if(oriHeader.getTransactionSequence().isPresent()){
+                        context.transactionSequence(oriHeader.getTransactionSequence().get());
                     }
                     context.cookies(oriHeader.getCookies());
                 }

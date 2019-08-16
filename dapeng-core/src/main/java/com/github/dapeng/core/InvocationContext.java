@@ -224,7 +224,12 @@ public interface InvocationContext {
      */
     InvocationContext transactionId(Integer currentTransactionId);
 
+    Integer transactionId();
+
+
     InvocationContext transactionSequence(Integer currentTransactionSequence);
+
+    Integer transactionSequence();
 
     InvocationContext isSoaTransactionProcess(boolean isSoaTransactionProcess);
     boolean isSoaTransactionProcess();

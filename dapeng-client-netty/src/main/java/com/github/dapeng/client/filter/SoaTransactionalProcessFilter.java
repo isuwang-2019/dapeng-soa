@@ -24,18 +24,7 @@ public class SoaTransactionalProcessFilter implements Filter {
         if (SoaSystemEnvProperties.SOA_TRANSACTIONAL_ENABLE && TransactionContext.hasCurrentInstance()
                 && TransactionContext.Factory.currentInstance().currentTransactionId() > 0 && context.isSoaTransactionProcess()) {// in container and is a transaction process
             isSoaTransactionProcess = true;
-        }
-        ctx.setAttribute("isSoaTransactionProcess", isSoaTransactionProcess);
-        next.onEntry(ctx);
 
-    }
-
-    @Override
-    public void onExit(FilterContext ctx, FilterChain prev) throws SoaException {
-
-        boolean isSoaTransactionProcess = (boolean) ctx.getAttribute("isSoaTransactionProcess");
-
-        if (isSoaTransactionProcess) {
             Object req = ctx.getAttribute("request");
             try {
                 new GlobalTransactionProcessTemplate<>(req).execute(() -> {
@@ -45,10 +34,16 @@ public class SoaTransactionalProcessFilter implements Filter {
             } catch (TException e) {
                 e.printStackTrace();
             }
-        } else {
-            prev.onExit(ctx);
-        }
 
+        }
+        ctx.setAttribute("isSoaTransactionProcess", isSoaTransactionProcess);
+        next.onEntry(ctx);
+
+    }
+
+    @Override
+    public void onExit(FilterContext ctx, FilterChain prev) throws SoaException {
+        prev.onExit(ctx);
     }
 
 

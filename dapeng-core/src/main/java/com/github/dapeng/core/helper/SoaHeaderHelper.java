@@ -89,6 +89,7 @@ public class SoaHeaderHelper {
             header.setCallerMid(invocationCtxProxy.callerMid());
 
             header.addCookies(invocationCtxProxy.cookies());
+
         }
 
         header.addCookies(invocationContext.cookies());
@@ -121,6 +122,9 @@ public class SoaHeaderHelper {
             header.setSessionTid(invocationContext.sessionTid());
         }
 
+        header.setTransactionId(invocationContext.transactionId());
+        header.setTransactionSequence(invocationContext.transactionSequence());
+
         /**
          * 如果容器内调用其它服务, 将原始的调用者信息传递
          */
@@ -142,17 +146,23 @@ public class SoaHeaderHelper {
                 if (!oriHeader.getCookies().isEmpty()) {
                     header.addCookies(oriHeader.getCookies());
                 }
-                if (!oriHeader.getCallerFrom().isPresent()){
+                if (!header.getCallerFrom().isPresent()){
                     header.setCallerFrom(oriHeader.getCallerFrom());
                 }
-                if (!oriHeader.getOperatorName().isPresent()){
+                if (!header.getOperatorName().isPresent()){
                     header.setOperatorName(oriHeader.getOperatorName());
                 }
-                if (!oriHeader.getCustomerId().isPresent()){
+                if (!header.getCustomerId().isPresent()){
                     header.setCustomerId(oriHeader.getCustomerId());
                 }
-                if (!oriHeader.getCustomerName().isPresent()){
+                if (!header.getCustomerName().isPresent()){
                     header.setCustomerName(oriHeader.getCustomerName());
+                }
+                if (!header.getTransactionId().isPresent()){
+                    header.setTransactionId(oriHeader.getTransactionId().orElse(null));
+                }
+                if (!header.getTransactionSequence().isPresent()){
+                    header.setTransactionId(oriHeader.getTransactionSequence().orElse(null));
                 }
 
             }

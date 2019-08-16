@@ -270,11 +270,7 @@ public class GlobalTransactionManager {
         invocationContext.transactionId(process.getTransactionId());
         invocationContext.transactionSequence(process.getTransactionSequence());
 
-        if (rollbackOrForward) {
-            responseJson = jsonPost.callServiceMethod("{\"body\": { }}", service);
-        } else {
-            responseJson = jsonPost.callServiceMethod("{\"body\":"+ process.getRequestJson() +"}", service);
-        }
+        responseJson = jsonPost.callServiceMethod("{\"body\":"+ process.getRequestJson() +"}", service);
 
         return responseJson;
     }
