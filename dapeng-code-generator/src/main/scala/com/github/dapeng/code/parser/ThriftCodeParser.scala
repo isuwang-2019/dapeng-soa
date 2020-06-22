@@ -109,8 +109,8 @@ class ThriftCodeParser(var language: String) {
   }
 
   private def toDocString(docstring: scala.Option[String]): String =
-    if (docstring == None)
-      null
+    if (docstring.isEmpty)
+      ""
     else {
       val result = docstring.get.toString();
 
@@ -328,7 +328,7 @@ class ThriftCodeParser(var language: String) {
   }
 
 
-  private def findServices(doc: Document, generator: ApacheJavaGenerator): util.List[metadata.Service] = {
+  private def findServices(doc: Document, generator: ApacheJavaGenerator,groupId:String="",artifactId:String="",modelVersion:String=""): util.List[metadata.Service] = {
     val results = new util.ArrayList[metadata.Service]()
 
     doc.services.foreach(s => {
@@ -339,8 +339,8 @@ class ThriftCodeParser(var language: String) {
 
       service.setNamespace(if (controller.has_namespace) controller.namespace else null)
       service.setName(controller.name)
-      service.setDoc(toDocString(s.docstring))
-      if (s.annotations.size > 0)
+      service.setDoc(s"${toDocString(s.docstring)} \n from $groupId/$artifactId/$modelVersion")
+      if (s.annotations.nonEmpty)
         service.setAnnotations(s.annotations.map { case (key, value) => new Annotation(key, value) }.toList)
 
 
@@ -370,7 +370,7 @@ class ThriftCodeParser(var language: String) {
         method.setName(functionField.name)
         method.setRequest(request)
         method.setResponse(response)
-        method.setDoc(toDocString(s.functions(tmpIndex).docstring))
+        method.setDoc(toDocString(s.functions(tmpIndex).docstring) )
 
         if (s.functions(tmpIndex).annotations.size > 0)
           method.setAnnotations(s.functions(tmpIndex).annotations.map { case (k, v) => new Annotation(k, v) }.toList)
@@ -468,7 +468,7 @@ class ThriftCodeParser(var language: String) {
     enumCache.toList
   }
 
-  def toServices(resources: Array[String], serviceVersion: String): util.List[metadata.Service] = {
+  def toServices(resources: Array[String], serviceVersion: String,groupId:String="",artifactId:String="",modelVersion:String=""): util.List[metadata.Service] = {
     resources.foreach(resource => {
       val doc = generateDoc(resource)
 
@@ -480,7 +480,7 @@ class ThriftCodeParser(var language: String) {
 
       enumCache.addAll(findEnums(doc, generator))
       structCache.addAll(findStructs(doc, generator))
-      serviceCache.addAll(findServices(doc, generator))
+      serviceCache.addAll(findServices(doc, generator,groupId,artifactId,modelVersion))
 
       for (enum <- enumCache)
         mapEnumCache.put(enum.getNamespace + "." + enum.getName, enum)

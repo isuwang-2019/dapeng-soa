@@ -41,6 +41,8 @@ public class GenerateFilePlugin extends AbstractMojo {
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
 
+        System.out.println("begin to generateFile " + project.getArtifactId());
+
         System.out.println("isDelete:"+isDelete);
         String separator = System.getProperty("file.separator");
         String projectPath = new File(project.getBuild().getOutputDirectory()).getAbsolutePath().replace("target" + System.getProperty("file.separator") + "classes", "");
@@ -53,7 +55,11 @@ public class GenerateFilePlugin extends AbstractMojo {
         if ("both".equals(language) || "java".equals(language)) {
             Scrooge.main(new String[]{"-gen", "java", "-all",
                     "-in", sourceFilePath,
-                    "-out", targetFilePath,(isDelete.equals("true")?"":"-notDel" )});
+                    "-out", targetFilePath,(isDelete.equals("true")?"":"-notDel" ),
+                    "-groupId",project.getGroupId(),
+                    "-artifactId",project.getArtifactId(),
+                    "-modelVersion",project.getModelVersion()
+            });
 //            File commonFile = new File(projectPath + "src/main/java/com/github/dapeng/soa/common");
 //            if (commonFile.exists()) {
 //                deleteDir(commonFile);
@@ -62,7 +68,11 @@ public class GenerateFilePlugin extends AbstractMojo {
         if ("both".equals(language) || "scala".equals(language)) {
             Scrooge.main(new String[]{"-gen", "scala", "-all",
                     "-in", sourceFilePath,
-                    "-out", targetFilePath,(isDelete.equals("true")?"":"-notDel" )});
+                    "-out", targetFilePath,(isDelete.equals("true")?"":"-notDel" ),
+                    "-groupId",project.getGroupId(),
+                    "-artifactId",project.getArtifactId(),
+                    "-modelVersion",project.getModelVersion()
+            });
 
 //            File scalaCommonFile = new File(projectPath + "src/main/scala/com/github/dapeng/soa/scala/common");
 //            if (scalaCommonFile.exists()) {
