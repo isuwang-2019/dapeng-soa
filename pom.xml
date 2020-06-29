@@ -207,7 +207,7 @@
 
     <repositories>
         <repository>
-            <id>maven-dapeng-com</id>
+            <id>maven-public</id>
             <url>http://nexus.oa.isuwang.com/repository/maven-public/</url>
             <releases>
                 <enabled>true</enabled>
@@ -216,17 +216,7 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
-        <repository>
-            <id>maven-net-cn</id>
-            <name>Maven China Mirror</name>
-            <url>http://repo1.maven.org/maven2/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
+
     </repositories>
 
     <dependencyManagement>

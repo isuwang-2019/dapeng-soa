@@ -155,7 +155,7 @@ object Scrooge {
   private def checkAndCreate(outDir: String): Unit = {
     val file = new File(outDir)
     if (!file.exists())
-      file.createNewFile()
+      file.mkdirs()
 
     if (file.isFile) {
       file.delete()
