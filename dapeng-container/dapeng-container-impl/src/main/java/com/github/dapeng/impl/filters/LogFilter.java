@@ -126,6 +126,13 @@ public class LogFilter implements ContainerFilter {
             Long requestTimestamp = (Long) transactionContext.getAttribute("dapeng_request_timestamp");
 
             Long cost = System.currentTimeMillis() - requestTimestamp;
+            String respResult = "";
+            if("getServiceMetadata".equalsIgnoreCase(soaHeader.getMethodName()) ){
+                respResult = (result != null ? " result:[" + formatToString(result.toString())  + "]" : "");
+            }else{
+                respResult = (result != null ? " result:[" + (logFormatEnable ? formatToString(result.toString()) : result.toString()) + "]" : "");
+            }
+
             String infoLog = "response[seqId:" + transactionContext.seqId() + ", respCode:" + soaHeader.getRespCode().get() + "]:"
                     + "service[" + soaHeader.getServiceName()
                     + "]:version[" + soaHeader.getVersionName()
@@ -133,7 +140,7 @@ public class LogFilter implements ContainerFilter {
                     + (soaHeader.getOperatorId().isPresent() ? " operatorId:" + soaHeader.getOperatorId().get() : "")
                     + (soaHeader.getOperatorName().isPresent() ? " operatorName:" + soaHeader.getOperatorName().get() : "")
                     + (soaHeader.getUserId().isPresent() ? " userId:" + soaHeader.getUserId().get() : ""
-                    + (result != null ? " result:[" + (logFormatEnable ? formatToString(result.toString()) : result.toString()) + "]" : "")
+                    + respResult
                     + " cost:" + cost + "ms");
             soaHeader.setCalleeTime1(cost.intValue());
             application.info(this.getClass(), infoLog);
