@@ -60,6 +60,21 @@ public class ServiceInvocationProxy implements InvocationContextImpl.InvocationC
     }
 
     @Override
+    public Optional<String> operatorName() {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<String> customerName() {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<String> callerFrom() {
+        return Optional.empty();
+    }
+
+    @Override
     public Optional<Long> sessionTid() {
         return Optional.of(DapengUtil.generateTid());
     }

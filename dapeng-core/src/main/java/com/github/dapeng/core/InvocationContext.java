@@ -350,7 +350,6 @@ public interface InvocationContext {
 
         Optional<String> callerFrom();
 
-        Optional<String> sessionId();
 
 
         /**
