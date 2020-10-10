@@ -8,10 +8,8 @@ ENV PATH $CONTAINER_HOME:$PATH
 
 RUN mkdir -p "$CONTAINER_HOME"
 
-COPY dapeng-container "$CONTAINER_HOME"
+COPY target/dapeng-container /dapeng-container
 
 WORKDIR "$CONTAINER_HOME/bin"
-
-COPY fluent-bit/etc /opt/fluent-bit/etc
 
 RUN chmod +x *.sh
