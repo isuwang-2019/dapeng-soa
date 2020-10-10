@@ -8,7 +8,7 @@ ENV PATH $CONTAINER_HOME:$PATH
 
 RUN mkdir -p "$CONTAINER_HOME"
 
-COPY /target/dapeng-container /dapeng-container
+COPY dapeng-container "$CONTAINER_HOME"
 
 WORKDIR "$CONTAINER_HOME/bin"
 
