@@ -64,18 +64,12 @@ public class SpringApplicationLoader implements Plugin {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         for (ClassLoader appClassLoader : appClassLoaders) {
             Thread.currentThread().setContextClassLoader(appClassLoader);
-
             try {
-                trySpring(appClassLoader);
-                LOGGER.info("==> Load as Spring OK <====");
-            } catch (Throwable ex) {
-                try {
-                    trySpringBoot(appClassLoader);
-                    LOGGER.info("====> Load as SpringBoot OK <====");
-                } catch (Throwable ex2) {
-                    LOGGER.info("====> Load as SpringBoot Err <====");
-                }
-                LOGGER.error("SpringStart Err {}",ex);
+                trySpringBoot(appClassLoader);
+                LOGGER.info("====> Load as SpringBoot OK <====");
+            } catch (Throwable ex2) {
+                LOGGER.info("====> Load as SpringBoot Err <====");
+                LOGGER.error("SpringStart Err {}",ex2);
             }
             Thread.currentThread().setContextClassLoader(classLoader);
         }
