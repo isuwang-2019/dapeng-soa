@@ -75,6 +75,7 @@ public class SpringApplicationLoader implements Plugin {
                 } catch (Throwable ex2) {
                     LOGGER.info("====> Load as SpringBoot Err <====");
                 }
+                LOGGER.error("SpringStart Err {}",ex);
             }
             Thread.currentThread().setContextClassLoader(classLoader);
         }
