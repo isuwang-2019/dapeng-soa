@@ -73,7 +73,7 @@ public class SpringApplicationLoader implements Plugin {
                     trySpringBoot(appClassLoader);
                     LOGGER.info("====> Load as SpringBoot OK <====");
                 } catch (Throwable ex2) {
-                    throw new RuntimeException("not a spring nor spingboot application ", ex2);
+                    LOGGER.info("====> Load as SpringBoot Err <====");
                 }
             }
             Thread.currentThread().setContextClassLoader(classLoader);
