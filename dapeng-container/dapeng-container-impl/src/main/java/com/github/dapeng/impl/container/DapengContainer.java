@@ -211,7 +211,7 @@ public class DapengContainer implements Container {
         DoctorFactory.createDoctor(this.getClass().getClassLoader());
         LifecycleProcessorFactory.createLifecycleProcessor(this.getClass().getClassLoader());
         //3. 初始化appLoader,dapengPlugin 应该用serviceLoader的方式去加载
-        Plugin springAppLoader = new SpringAppLoader(this, applicationCls);
+//        Plugin springAppLoader = new SpringAppLoader(this, applicationCls);
         //todo 2020-02-15 for springboot.
         Plugin springBootAppLoader = new SpringApplicationLoader(this, applicationCls);
         Plugin zookeeperPlugin = new ZookeeperRegistryPlugin(this);
@@ -228,7 +228,8 @@ public class DapengContainer implements Container {
 
         registerPlugin(nettyPlugin);
         registerPlugin(zookeeperPlugin);
-        registerPlugin(springAppLoader);
+//        registerPlugin(springAppLoader);
+        registerPlugin(springBootAppLoader);
         registerPlugin(taskSchedulePlugin);
         registerPlugin(mbeanAgentPlugin);
 
