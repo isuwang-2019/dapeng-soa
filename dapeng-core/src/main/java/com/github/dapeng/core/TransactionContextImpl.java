@@ -76,6 +76,10 @@ public class TransactionContextImpl implements TransactionContext {
      */
     private Optional<Integer> operatorId = Optional.empty();
 
+    private Optional<String> operatorName = Optional.empty();
+
+
+    private Optional<String> customerName = Optional.empty();
     /**
      * 调用者Tid
      */
@@ -84,6 +88,11 @@ public class TransactionContextImpl implements TransactionContext {
      * 调用者ip
      */
     private Optional<Integer> callerIp = Optional.empty();
+
+    /**
+     * 调用源
+     */
+    private Optional<String> callerFrom = Optional.empty();
     /**
      * 调用者port, 只有dapeng服务作为调用者的时候才有这个值
      */
@@ -151,6 +160,15 @@ public class TransactionContextImpl implements TransactionContext {
     }
 
     @Override
+    public Optional<String> callerFrom() {
+        return callerFrom;
+    }
+
+    public TransactionContextImpl callerFrom(String callerFrom) {
+        this.callerFrom = Optional.ofNullable(callerFrom);
+        return this;
+    }
+    @Override
     public Optional<Integer> operatorId() {
         return operatorId;
     }
@@ -161,8 +179,23 @@ public class TransactionContextImpl implements TransactionContext {
     }
 
     @Override
+    public Optional<String> operatorName() {
+        return operatorName;
+    }
+
+    public  TransactionContextImpl operatorName(String operatorName){
+        this.operatorName = Optional.ofNullable(operatorName);
+        return this;
+    }
+
+    @Override
     public Optional<Integer> customerId() {
         return customerId;
+    }
+
+    @Override
+    public Optional<String> customerName() {
+        return Optional.empty();
     }
 
     public TransactionContextImpl customerId(Integer customerId) {
