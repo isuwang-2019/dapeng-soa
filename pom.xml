@@ -67,6 +67,7 @@
         <module>dapeng-json</module>
         <module>dapeng-test</module>
         <module>dapeng-counter</module>
+        <module>dapeng-springboot-project</module>
     </modules>
 
     <properties>
