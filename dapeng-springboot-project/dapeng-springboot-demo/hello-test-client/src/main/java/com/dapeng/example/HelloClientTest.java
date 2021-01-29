@@ -11,7 +11,7 @@ import com.github.dapeng.core.SoaException;
 
 public class HelloClientTest {
     public static void main(String[] args) throws SoaException {
-        System.setProperty("soa.zookeeper.host", "127.0.0.1:2181");
+        System.setProperty("soa.zookeeper.host", "192.168.2.59:2181");
         HelloServiceClient client = new HelloServiceClient();
         String res = client.sayHello("Dapeng");
         System.out.println("result-->" + res);

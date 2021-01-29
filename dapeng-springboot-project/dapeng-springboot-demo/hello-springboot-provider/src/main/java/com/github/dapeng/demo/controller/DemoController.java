@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class DemoController {
     @Autowired
-    private HelloServiceImpl helloService;
+    private HelloService helloService;
 
     @RequestMapping("/hello")
     public String hello(String name) throws SoaException {

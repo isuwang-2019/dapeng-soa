@@ -3,7 +3,8 @@
     <doc>
 
  Hello-Service
-</doc>
+ 
+ from com.github.dapeng/hello-api</doc>
     <meta>
         <version>1.0.0</version>
         <timeout>30000</timeout>
