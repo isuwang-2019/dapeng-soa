@@ -512,17 +512,21 @@ class JavaGenerator extends CodeGenerator {
       <div>package {struct.namespace};
 
         import java.util.Optional;
+        import io.swagger.annotations.ApiModel;
+        import io.swagger.annotations.ApiModelProperty;
 
         /**
         {notice}
         *{struct.doc}
         **/
+        @ApiModel
         public class {struct.name}<block>
         {toFieldArrayBuffer(struct.getFields).map{(field : Field) =>{
           <div>
             /**
             *{field.doc}
             **/
+            @ApiModelProperty(value = "{field.doc.replaceAll("\\s+", "").replaceAll("\\n","").replaceAll("\"","")}" {if(!field.isOptional) <div> ,required = true </div>} )
             {if(field.isPrivacy)  <div>private</div> else <div>public</div>} {if(field.isOptional) <div>Optional{lt}</div>}{toDataTypeTemplate(field.isOptional, field.getDataType)}{if(field.isOptional) <div>{gt}</div>} {field.name} {if(field.isOptional) <div>= Optional.empty()</div> else {
             field.dataType.kind match {
               case KIND.LIST => <div>= new java.util.ArrayList()</div>
