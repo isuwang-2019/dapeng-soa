@@ -526,7 +526,7 @@ class JavaGenerator extends CodeGenerator {
             /**
             *{field.doc}
             **/
-            @ApiModelProperty(value = "{field.doc.replaceAll("\\s+", "").replaceAll("\\n","").replaceAll("\"","")}" {if(!field.isOptional) <div> ,required = true </div>} )
+            @ApiModelProperty(value = "{field.doc.replaceAll("\\s+", "").replaceAll("\\n","").replaceAll("\"","").replaceAll("\\\\","\\\\\\\\")}" {if(!field.isOptional) <div> ,required = true </div>} )
             {if(field.isPrivacy)  <div>private</div> else <div>public</div>} {if(field.isOptional) <div>Optional{lt}</div>}{toDataTypeTemplate(field.isOptional, field.getDataType)}{if(field.isOptional) <div>{gt}</div>} {field.name} {if(field.isOptional) <div>= Optional.empty()</div> else {
             field.dataType.kind match {
               case KIND.LIST => <div>= new java.util.ArrayList()</div>
