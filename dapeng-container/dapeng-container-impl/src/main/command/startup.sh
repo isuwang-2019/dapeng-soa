@@ -111,4 +111,5 @@ trap 'kill ${!};process_exit' SIGTERM
 echo $JAVA_OPTS > $LOGDIR/console.log
 
 
+
 java -server $JAVA_OPTS -cp ./dapeng-bootstrap.jar com.github.dapeng.bootstrap.Bootstrap
