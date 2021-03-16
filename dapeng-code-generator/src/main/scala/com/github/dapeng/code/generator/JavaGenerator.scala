@@ -512,7 +512,7 @@ class JavaGenerator extends CodeGenerator {
       <div>package {struct.namespace};
 
         import java.util.Optional;
-        import io.swagger.v3.oas.annotations.media.Schema
+        import io.swagger.v3.oas.annotations.media.Schema;
 
         /**
         {notice}
