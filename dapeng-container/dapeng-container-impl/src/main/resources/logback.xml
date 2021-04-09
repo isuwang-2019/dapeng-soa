@@ -126,14 +126,32 @@
     </logger>
 
     <root level="INFO">
-        <if condition='!property("soa.run.mode").equals("native")'>
+        <if condition='property("soa.log.mode").equals("file")'>
             <then>
-                <appender-ref ref="STDOUT"/>
+                <appender-ref ref="DETAILFILE"/>
+                <appender-ref ref="ERRORFILE"/>
             </then>
+            <else>
+                <if condition='property("soa.log.mode").equals("both")'>
+                    <then>
+                        <appender-ref ref="STDOUT"/>
+                        <appender-ref ref="DETAILFILE"/>
+                        <appender-ref ref="ERRORFILE"/>
+                    </then>
+                    <else>
+                        <if condition='property("soa.log.mode").equals("stdout")'>
+                            <then>
+                                <appender-ref ref="STDOUT"/>
+                            </then>
+                            <else>
+                                <appender-ref ref="STDOUT"/>
+                                <!--                                <appender-ref ref="DETAILFILE"/>-->
+                            </else>
+                        </if>
+                    </else>
+                </if>
+            </else>
         </if>
-
-        <appender-ref ref="DETAILFILE"/>
-        <appender-ref ref="ERRORFILE"/>
     </root>
     <jmxConfigurator />
 </configuration>
