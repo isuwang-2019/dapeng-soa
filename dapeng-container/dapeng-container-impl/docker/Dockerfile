@@ -1,5 +1,5 @@
 #soa-container:base
-FROM harbor.kuaisuwang.com.cn/library/jdk8:5.0
+FROM harbor.kuaisuwang.com.cn/system/jdk8:5.0
 MAINTAINER ever@iplas.com.cn
 
 # Setting Envirnoment
