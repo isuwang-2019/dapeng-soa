@@ -6,7 +6,6 @@ import com.github.dapeng.core.InvocationContextImpl;
 import com.github.dapeng.core.SoaHeader;
 import com.github.dapeng.core.TransactionContext;
 import com.github.dapeng.core.filter.ContainerFilter;
-import com.github.dapeng.core.filter.Filter;
 import com.github.dapeng.core.filter.FilterChain;
 import com.github.dapeng.core.filter.FilterContext;
 import com.github.dapeng.core.helper.DapengUtil;
@@ -62,9 +61,7 @@ public class LogFilter implements ContainerFilter {
                     + (soaHeader.getUserIp().isPresent() ? " userIp:" + IPUtils.transferIp(soaHeader.getUserIp().get()) : "") + " "
                     + (args != null ? " args:[" + (logFormatEnable ? formatToString(args.toString()) :args.toString()) + "]" : "") ;
 
-
-
-            application.info(this.getClass(), infoLog);
+            if (!"getServiceMetadata".equals(soaHeader.getMethodName())) application.info(this.getClass(), infoLog);
         } finally {
             //remove current invocation
             InvocationContextImpl.Factory.removeCurrentInstance();
@@ -127,9 +124,9 @@ public class LogFilter implements ContainerFilter {
 
             Long cost = System.currentTimeMillis() - requestTimestamp;
             String respResult = "";
-            if("getServiceMetadata".equalsIgnoreCase(soaHeader.getMethodName()) ){
-                respResult = (result != null ? " result:[" + formatToString(result.toString())  + "]" : "");
-            }else{
+            if ("getServiceMetadata".equalsIgnoreCase(soaHeader.getMethodName())) {
+                respResult = (result != null ? " result:[" + formatToString(result.toString()) + "]" : "");
+            } else {
                 respResult = (result != null ? " result:[" + (logFormatEnable ? formatToString(result.toString()) : result.toString()) + "]" : "");
             }
 
@@ -143,7 +140,7 @@ public class LogFilter implements ContainerFilter {
                     + respResult
                     + " cost:" + cost + "ms");
             soaHeader.setCalleeTime1(cost.intValue());
-            application.info(this.getClass(), infoLog);
+            if (!"getServiceMetadata".equals(soaHeader.getMethodName())) application.info(this.getClass(), infoLog);
         } finally {
             try {
                 prev.onExit(filterContext);

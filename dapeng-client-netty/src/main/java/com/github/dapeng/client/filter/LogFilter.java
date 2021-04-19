@@ -52,12 +52,14 @@ public class LogFilter implements Filter {
 
             MDC.put(SoaSystemEnvProperties.KEY_LOGGER_SESSION_TID, invocationContext.sessionTid().map(DapengUtil::longToHexStr).orElse("0"));
 
-            String infoLog = "request[seqId:" + invocationContext.seqId() + ", server:" + filterContext.getAttribute("serverInfo") + "]:"
-                    + "service[" + invocationContext.serviceName()
-                    + "]:version[" + invocationContext.versionName()
-                    + "]:method[" + invocationContext.methodName() + "]";
+           if(!"getServiceMetadata".equals(invocationContext.methodName())) {
+               String infoLog = "request[seqId:" + invocationContext.seqId() + ", server:" + filterContext.getAttribute("serverInfo") + "]:"
+                       + "service[" + invocationContext.serviceName()
+                       + "]:version[" + invocationContext.versionName()
+                       + "]:method[" + invocationContext.methodName() + "]";
 
-            LOGGER.info(getClass().getSimpleName() + "::onEntry," + infoLog);
+               LOGGER.info(getClass().getSimpleName() + "::onEntry," + infoLog);
+           }
         } finally {
             next.onEntry(filterContext);
         }
@@ -80,7 +82,7 @@ public class LogFilter implements Filter {
                     + ", calleeTime2:" + invocationInfo.calleeTime2()
                     + ", calleeIp: " + transferIp(invocationInfo.calleeIp());
             if (SoaSystemEnvProperties.SOA_NORMAL_RESP_CODE.equals(invocationInfo.responseCode())) {
-                LOGGER.info(getClass().getSimpleName() + "::onExit," + infoLog);
+                if(!"getServiceMetadata".equals(invocationContext.methodName())) { LOGGER.info(getClass().getSimpleName() + "::onExit," + infoLog);}
             } else {
                 LOGGER.error(getClass().getSimpleName() + "::onExit," + infoLog);
             }
