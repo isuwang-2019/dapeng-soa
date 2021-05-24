@@ -115,6 +115,15 @@ echo $JAVA_OPTS > $LOGDIR/console.log
 
 java -server $JAVA_OPTS -cp ./dapeng-bootstrap.jar com.github.dapeng.bootstrap.Bootstrap
 
-JAVA_PID=$(jps |grep 'Bootstrap'|  awk '{print $1}')
-echo $JAVA_PID
-trap 'kill -s SIGTERM $JAVA_PID' SIGTERM
+
+
+trap onSignalTerm TERM
+
+# shellcheck disable=SC2112
+function onSignalTerm(){
+ JAVA_PID=$(jps |grep 'Bootstrap'|  awk '{print $1}')
+echo "$JAVA_PID => $JAVA_PID"
+trap 'kill -s SIGTERM $JAVA_PID' TERM
+}
+
+wait "$JAVA_PID"
