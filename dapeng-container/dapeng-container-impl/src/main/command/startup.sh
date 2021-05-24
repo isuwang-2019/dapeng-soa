@@ -89,25 +89,26 @@ else
 fi
 
 # SIGTERM-handler  graceful-shutdown
-pid=0
-process_exit() {
- if [ $pid -ne 0 ]; then
-  kill -SIGTERM "$pid"
-  wait "$pid"
- fi
+#pid=0
+#process_exit() {
+# if [ $pid -ne 0 ]; then
+#  kill -SIGTERM "$pid"
+#  wait "$pid"
+# fi
+#
+#for fluentPid in $(pgrep -f fluent-bit)
+# do
+#    kill -SIGTERM "$fluentPid"
+#    wait "$fluentPid"
+# done
+#
+# exit 143; # 128 + 15 -- SIGTERM
+#}
 
-for fluentPid in $(pgrep -f fluent-bit)
- do
-    kill -SIGTERM "$fluentPid"
-    wait "$fluentPid"
- done
 
- exit 143; # 128 + 15 -- SIGTERM
-}
+#trap 'kill ${!};process_exit' SIGTERM
 
-
-trap 'kill ${!};process_exit' SIGTERM
-
+trap 'kill -s SIGTERM 32' SIGTERM
 echo $JAVA_OPTS > $LOGDIR/console.log
 
 
