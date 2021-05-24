@@ -108,9 +108,13 @@ fi
 
 #trap 'kill ${!};process_exit' SIGTERM
 
-trap 'kill -s SIGTERM 32' SIGTERM
+#trap 'kill -s SIGTERM 32' SIGTERM
 echo $JAVA_OPTS > $LOGDIR/console.log
 
 
 
 java -server $JAVA_OPTS -cp ./dapeng-bootstrap.jar com.github.dapeng.bootstrap.Bootstrap
+
+JAVA_PID=$(jps |grep 'Bootstrap'|  awk '{print $1}')
+echo $JAVA_PID
+trap 'kill -s SIGTERM $JAVA_PID' SIGTERM
