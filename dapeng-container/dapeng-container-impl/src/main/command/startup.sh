@@ -108,7 +108,7 @@ for fluentPid in $(pgrep -f fluent-bit)
 
 trap 'kill ${!};process_exit' SIGTERM
 
-echo $JAVA_OPTS > $LOGDIR/console.log
+echo "dapeng-container:$JAVA_OPTS"
 
 
 
