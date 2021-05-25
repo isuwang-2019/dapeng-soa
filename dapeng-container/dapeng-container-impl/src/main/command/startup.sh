@@ -41,9 +41,9 @@ NETTY_OPTS=" -Dio.netty.leakDetectionLevel=advanced "
 
 
 if [ "$JAVA_VERSION" \< "11" ]; then
-    GC_OPTS=" -XX:NewRatio=1 -XX:SurvivorRatio=30 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$LOGDIR/$ADATE.hprof -XX:+PrintGCDateStamps -Xloggc:$LOGDIR/gc-$PRGNAME-$ADATE.log -XX:+PrintPromotionFailure -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCDetails -Dlog.dir=$PRGDIR/.. -XX:+UseParallelGC -XX:+UseParallelOldGC"
+    GC_OPTS=" -XX:NewRatio=1 -XX:SurvivorRatio=30 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$LOGDIR/$ADATE.hprof -XX:+PrintGCDateStamps  -XX:+PrintPromotionFailure -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCDetails -Dlog.dir=$PRGDIR/.. -XX:+UseParallelGC -XX:+UseParallelOldGC"
 else
-    GC_OPTS=" -XX:NewRatio=1 -XX:SurvivorRatio=30 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$LOGDIR/$ADATE.hprof -Xloggc:$LOGDIR/gc-$PRGNAME-$ADATE.log -XX:+PrintGCDetails -Dlog.dir=$PRGDIR/.. -XX:+UnlockExperimentalVMOptions -XX:+UseZGC"
+    GC_OPTS=" -XX:NewRatio=1 -XX:SurvivorRatio=30 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$LOGDIR/$ADATE.hprof  -XX:+PrintGCDetails -Dlog.dir=$PRGDIR/.. -XX:+UnlockExperimentalVMOptions -XX:+UseZGC"
 fi
 
 
