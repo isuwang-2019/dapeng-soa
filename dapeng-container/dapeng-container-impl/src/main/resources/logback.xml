@@ -17,26 +17,32 @@
         </filter>
     </appender>
 
-    <appender name="SIMPLEFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <prudent>false</prudent>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${soa.base}/logs/simple-dapeng-container.%d{yyyy-MM-dd}.log</fileNamePattern>
-            <maxHistory>30</maxHistory>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%d{MM-dd HH:mm:ss SSS} %t %p [%X{sessionTid}] - %m%n</pattern>
-        </encoder>
+    <appender name="SIMPLEFILE" class="ch.qos.logback.core.ConsoleAppender">
+<!--        <prudent>false</prudent>-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>${soa.base}/logs/simple-dapeng-container.%d{yyyy-MM-dd}.log</fileNamePattern>-->
+<!--            <maxHistory>30</maxHistory>-->
+<!--        </rollingPolicy>-->
+<!--        <encoder>-->
+<!--            <pattern>%d{MM-dd HH:mm:ss SSS} %t %p [%X{sessionTid}] - %m%n</pattern>-->
+<!--        </encoder>-->
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>SIMPLEFILE - %d{MM-dd HH:mm:ss SSS} %t %p [%X{sessionTid}] - %m%n</Pattern>
+        </layout>
     </appender>
 
-    <appender name="SLOWTIMEFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <prudent>false</prudent>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${soa.base}/logs/slow-service.%d{yyyy-MM-dd}.log</fileNamePattern>
-            <maxHistory>30</maxHistory>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%d{MM-dd HH:mm:ss SSS} %t %p [%X{sessionTid}] - %m%n</pattern>
-        </encoder>
+    <appender name="SLOWTIMEFILE" class="ch.qos.logback.core.ConsoleAppender">
+<!--        <prudent>false</prudent>-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>${soa.base}/logs/slow-service.%d{yyyy-MM-dd}.log</fileNamePattern>-->
+<!--            <maxHistory>30</maxHistory>-->
+<!--        </rollingPolicy>-->
+<!--        <encoder>-->
+<!--            <pattern>%d{MM-dd HH:mm:ss SSS} %t %p [%X{sessionTid}] - %m%n</pattern>-->
+<!--        </encoder>-->
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>SLOWTIMEFILE - %d{MM-dd HH:mm:ss SSS} %t %p [%X{sessionTid}] - %m%n</Pattern>
+        </layout>
     </appender>
 
     <appender name="DETAILFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -50,29 +56,38 @@
         </encoder>
     </appender>
 
-    <appender name="ERRORFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <prudent>false</prudent>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${soa.base}/logs/error-dapeng-container.%d{yyyy-MM-dd}.log</fileNamePattern>
-            <maxHistory>30</maxHistory>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%d{MM-dd HH:mm:ss SSS} %t %p [%X{sessionTid}] - %m%n</pattern>
-        </encoder>
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>ERROR</level>
-        </filter>
+    <appender name="ERRORFILE" class="ch.qos.logback.core.ConsoleAppender">
+<!--        <prudent>false</prudent>-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>${soa.base}/logs/error-dapeng-container.%d{yyyy-MM-dd}.log</fileNamePattern>-->
+<!--            <maxHistory>30</maxHistory>-->
+<!--        </rollingPolicy>-->
+<!--        <encoder>-->
+<!--            <pattern>%d{MM-dd HH:mm:ss SSS} %t %p [%X{sessionTid}] - %m%n</pattern>-->
+<!--        </encoder>-->
+<!--        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">-->
+<!--            <level>ERROR</level>-->
+<!--        </filter>-->
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>ERRORFILE - %d{MM-dd HH:mm:ss SSS} %t %p [%X{sessionTid}] - %m%n</Pattern>
+        </layout>
     </appender>
 
-    <appender name="GBTRANSACTIONFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <prudent>false</prudent>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${soa.base}/logs/transaction-dapeng-container.%d{yyyy-MM-dd}.log</fileNamePattern>
-            <maxHistory>30</maxHistory>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%d{MM-dd HH:mm:ss SSS} %t %p [%X{sessionTid}] - %m%n</pattern>
-        </encoder>
+    <appender name="GBTRANSACTIONFILE" class="ch.qos.logback.core.ConsoleAppender">
+<!--        <prudent>false</prudent>-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>${soa.base}/logs/transaction-dapeng-container.%d{yyyy-MM-dd}.log</fileNamePattern>-->
+<!--            <maxHistory>30</maxHistory>-->
+<!--        </rollingPolicy>-->
+<!--        <encoder>-->
+<!--            <pattern>%d{MM-dd HH:mm:ss SSS} %t %p [%X{sessionTid}] - %m%n</pattern>-->
+<!--        </encoder>-->
+<!--        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">-->
+<!--            <level>INFO</level>-->
+<!--        </filter>-->
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>GBTRANSACTIONFILE - %d{MM-dd HH:mm:ss SSS} %t %p [%X{sessionTid}] - %m%n</Pattern>
+        </layout>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>INFO</level>
         </filter>
@@ -89,15 +104,18 @@
     <!--</encoder>-->
     <!--</appender>-->
 
-    <appender name="SCHEDULEDTASK" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <prudent>false</prudent>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${soa.base}/logs/scheduled-task.%d{yyyy-MM-dd}.log</fileNamePattern>
-            <maxHistory>30</maxHistory>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%d{MM-dd HH:mm:ss SSS} %t %p [%X{sessionTid}] - %m%n</pattern>
-        </encoder>
+    <appender name="SCHEDULEDTASK" class="ch.qos.logback.core.ConsoleAppender">
+<!--        <prudent>false</prudent>-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>${soa.base}/logs/scheduled-task.%d{yyyy-MM-dd}.log</fileNamePattern>-->
+<!--            <maxHistory>30</maxHistory>-->
+<!--        </rollingPolicy>-->
+<!--        <encoder>-->
+<!--            <pattern>%d{MM-dd HH:mm:ss SSS} %t %p [%X{sessionTid}] - %m%n</pattern>-->
+<!--        </encoder>-->
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>SCHEDULEDTASK - %d{MM-dd HH:mm:ss SSS} %t %p [%X{sessionTid}] - %m%n</Pattern>
+        </layout>
     </appender>
 
     <!--<logger name="container.kafka.consumer" additivity="true">-->
