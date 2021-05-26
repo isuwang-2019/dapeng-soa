@@ -6,7 +6,6 @@ import com.github.dapeng.core.SoaHeader;
 import com.github.dapeng.core.helper.SoaHeaderHelper;
 import com.github.dapeng.core.helper.SoaSystemEnvProperties;
 import com.github.dapeng.org.apache.thrift.TException;
-import com.github.dapeng.util.DumpUtil;
 import com.github.dapeng.util.SoaMessageBuilder;
 import io.netty.buffer.AbstractByteBufAllocator;
 import io.netty.buffer.ByteBuf;
@@ -43,7 +42,6 @@ public class SoaConnectionImpl extends SoaBaseConnection {
             return buf;
         } catch (TException e) {
             LOGGER.error(e.getMessage(), e);
-            requestBuf.release();
             if (e instanceof SoaException) {
                 throw (SoaException)e;
             } else {

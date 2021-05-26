@@ -1,7 +1,6 @@
 package com.github.dapeng.client.netty;
 
 import com.github.dapeng.client.filter.LogFilter;
-import com.github.dapeng.client.filter.HeadFilter;
 import com.github.dapeng.core.*;
 import com.github.dapeng.core.filter.*;
 import com.github.dapeng.core.helper.DapengUtil;
@@ -77,12 +76,14 @@ public abstract class SoaBaseConnection implements SoaConnection {
                 if (LOGGER.isTraceEnabled()) {
                     LOGGER.trace("dispatchFilter::onEntry");
                 }
-                ByteBuf requestBuf = buildRequestBuf(service, version, method, seqid, request, requestSerializer);
 
-                // TODO filter
-                checkChannel();
 
+                ByteBuf requestBuf = null;
                 try {
+                    requestBuf = buildRequestBuf(service, version, method, seqid, request, requestSerializer);
+
+                    // TODO filter
+                    checkChannel();
                     ByteBuf responseBuf = client.send(channel, seqid, requestBuf, timeout, service);
 
                     Result<RESP> result = processResponse(responseBuf, responseSerializer);
@@ -94,6 +95,10 @@ public abstract class SoaBaseConnection implements SoaConnection {
                     onExit(ctx, getPrevChain(ctx));
                 } finally {
                     InvocationContextImpl.Factory.removeCurrentInstance();
+
+                    if(requestBuf != null && requestBuf.refCnt() > 0){
+                        requestBuf.release();
+                    }
                 }
             }
 
@@ -177,9 +182,10 @@ public abstract class SoaBaseConnection implements SoaConnection {
 
             @Override
             public void onEntry(FilterContext ctx, FilterChain next) throws SoaException {
+                ByteBuf requestBuf = null;
                 try {
 
-                    ByteBuf requestBuf = buildRequestBuf(service, version, method, seqid, request, requestSerializer);
+                    requestBuf = buildRequestBuf(service, version, method, seqid, request, requestSerializer);
 
                     CompletableFuture<ByteBuf> responseBufFuture;
                     try {
@@ -242,6 +248,10 @@ public abstract class SoaBaseConnection implements SoaConnection {
                 } finally {
                     InvocationContextImpl.Factory.removeCurrentInstance();
                     MDC.remove(SoaSystemEnvProperties.KEY_LOGGER_SESSION_TID);
+
+                    if(requestBuf != null && requestBuf.refCnt() > 0){
+                        requestBuf.release();
+                    }
                 }
             }
 
