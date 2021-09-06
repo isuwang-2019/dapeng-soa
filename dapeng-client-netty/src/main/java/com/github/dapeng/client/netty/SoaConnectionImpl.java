@@ -32,6 +32,7 @@ public class SoaConnectionImpl extends SoaBaseConnection {
                     .seqid(seqid)
                     .build();
         } catch (TException e) {
+            requestBuf.release();
             LOGGER.error(e.getMessage(), e);
             if (e instanceof SoaException) {
                 throw (SoaException)e;
