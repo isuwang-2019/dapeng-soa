@@ -8,7 +8,10 @@ import com.github.dapeng.core.helper.SoaSystemEnvProperties;
 import com.github.dapeng.org.apache.thrift.TException;
 import com.github.dapeng.util.DumpUtil;
 import com.github.dapeng.util.SoaMessageParser;
+import io.netty.buffer.AbstractByteBufAllocator;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.PooledByteBufAllocator;
+import io.netty.buffer.UnpooledByteBufAllocator;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,7 +83,8 @@ public abstract class SoaBaseConnection implements SoaConnection {
 
                 ByteBuf requestBuf = null;
                 try {
-                    requestBuf = buildRequestBuf(service, version, method, seqid, request, requestSerializer);
+                    requestBuf = initRequestByteBuf();
+                    buildRequestBuf(requestBuf, service, version, method, seqid, request, requestSerializer);
 
                     // TODO filter
                     checkChannel();
@@ -185,7 +189,8 @@ public abstract class SoaBaseConnection implements SoaConnection {
                 ByteBuf requestBuf = null;
                 try {
 
-                    requestBuf = buildRequestBuf(service, version, method, seqid, request, requestSerializer);
+                    requestBuf = initRequestByteBuf();
+                    buildRequestBuf(requestBuf, service, version, method, seqid, request, requestSerializer);
 
                     CompletableFuture<ByteBuf> responseBufFuture;
                     try {
@@ -328,7 +333,7 @@ public abstract class SoaBaseConnection implements SoaConnection {
         return soaException;
     }
 
-    protected abstract <REQ> ByteBuf buildRequestBuf(String service, String version, String method, int seqid, REQ request, BeanSerializer<REQ> requestSerializer) throws SoaException;
+    protected abstract <REQ> void buildRequestBuf(ByteBuf requestBuf, String service, String version, String method, int seqid, REQ request, BeanSerializer<REQ> requestSerializer) throws SoaException;
 
     /**
      * 请求的响应. 要不是成功的响应, 要不是异常对象
@@ -430,5 +435,17 @@ public abstract class SoaBaseConnection implements SoaConnection {
         info.calleeTime2(respHeader.getCalleeTime2().orElse(0));
         info.loadBalanceStrategy(invocationContext.loadBalanceStrategy().orElse(null));
         info.responseCode(respHeader.getRespCode().orElse(SoaCode.ClientUnKnown.getCode()));
+    }
+
+    /**
+     * 初始化请求ByteBuf
+     * @return
+     */
+    private ByteBuf initRequestByteBuf(){
+        AbstractByteBufAllocator allocator =
+                SoaSystemEnvProperties.SOA_POOLED_BYTEBUF ?
+                        PooledByteBufAllocator.DEFAULT : UnpooledByteBufAllocator.DEFAULT;
+        final ByteBuf requestBuf = allocator.buffer(8192);
+        return requestBuf;
     }
 }
