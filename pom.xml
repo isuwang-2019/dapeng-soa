@@ -77,6 +77,72 @@
         <logback-version>1.1.3</logback-version>
     </properties>
 
+
+
+    <distributionManagement>
+        <repository>
+            <id>nexus-jenkins-releases</id>
+            <name>Nexus Releases Repository</name>
+            <url>https://nexus.kuaisuwang.com.cn/repository/maven-releases/</url>
+        </repository>
+
+        <snapshotRepository>
+            <id>nexus-jenkins-snapshots</id>
+            <name>Nexus Snapshots Repository</name>
+            <url>https://nexus.kuaisuwang.com.cn/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>nexus-oss-public</id>
+            <url>https://nexus.kuaisuwang.com.cn/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>maven-net-cn</id>
+            <name>Maven China Mirror</name>
+            <url>http://repo1.maven.org/maven2/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>maven-isuwang-com</id>
+            <url>https://nexus.kuaisuwang.com.cn/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+
+        <pluginRepository>
+            <id>maven-net-cn</id>
+            <name>Maven China Mirror</name>
+            <url>http://repo1.maven.org/maven2/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+
     <profiles>
         <profile>
             <id>release</id>
@@ -153,19 +219,6 @@
 
         <profile>
             <id>test</id>
-            <distributionManagement>
-                <repository>
-                    <id>nexus-releases</id>
-                    <name>Nexus Releases Repository</name>
-                    <url>http://nexus.oa.isuwang.com/repository/maven-releases/</url>
-                </repository>
-
-                <snapshotRepository>
-                    <id>nexus-snapshots</id>
-                    <name>Nexus Snapshots Repository</name>
-                    <url>http://nexus.oa.isuwang.com/repository/maven-snapshots/</url>
-                </snapshotRepository>
-            </distributionManagement>
 
             <build>
                 <plugins>
@@ -205,19 +258,6 @@
         </profile>
     </profiles>
 
-    <repositories>
-        <repository>
-            <id>maven-public</id>
-            <url>http://nexus.oa.isuwang.com/repository/maven-public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-
-    </repositories>
 
     <dependencyManagement>
         <dependencies>
