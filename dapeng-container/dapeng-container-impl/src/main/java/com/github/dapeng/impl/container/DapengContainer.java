@@ -229,7 +229,7 @@ public class DapengContainer implements Container {
             registerPlugin(transactionPlugin);
         }
 
-        registerPlugin(zookeeperPlugin);
+
         registerPlugin(springAppLoader);
         registerPlugin(taskSchedulePlugin);
         registerPlugin(nettyPlugin);
@@ -238,6 +238,8 @@ public class DapengContainer implements Container {
 
         //add messagePlugin
 //        registerPlugin(messagePlugin);
+
+        registerPlugin(zookeeperPlugin);
 
         if ("plugin".equals(RUN_MODE)) {
             Plugin apiDocPlugin = new ApiDocPlugin(this);
