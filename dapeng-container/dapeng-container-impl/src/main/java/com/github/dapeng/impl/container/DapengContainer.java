@@ -229,17 +229,16 @@ public class DapengContainer implements Container {
             registerPlugin(transactionPlugin);
         }
 
-
-        registerPlugin(springAppLoader);
-        registerPlugin(taskSchedulePlugin);
         registerPlugin(nettyPlugin);
         registerPlugin(pluginLoader);
+        registerPlugin(zookeeperPlugin);
+        registerPlugin(taskSchedulePlugin);
+        registerPlugin(springAppLoader);
         registerPlugin(mbeanAgentPlugin);
 
         //add messagePlugin
 //        registerPlugin(messagePlugin);
 
-        registerPlugin(zookeeperPlugin);
 
         if ("plugin".equals(RUN_MODE)) {
             Plugin apiDocPlugin = new ApiDocPlugin(this);
