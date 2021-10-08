@@ -18,17 +18,20 @@ fi
 # soa-parent
 soaparentdir=${basedir}/../../
 cd ${soaparentdir}
-mvn clean install
+mvn clean install  -DskipTests
+
 
 # container
 containerdir=${basedir}
 cd ${containerdir}
-mvn clean package -Pdev
+mvn clean package -Pdev  -DskipTests
+
 
 # engine
 enginedir=${basedir}/../dapeng-bootstrap
 cd ${enginedir}
-mvn clean package -Pdev
+mvn clean package -Pdev  -DskipTests
+
 
 cp ${enginedir}/target/dapeng-bootstrap.jar ${containerdir}/target/dapeng-container/bin/
 cp -rf ${soaparentdir}/dapeng-message/dapeng-message-kafka/target/dapeng-message-kafka ${containerdir}/target/dapeng-container/plugin/

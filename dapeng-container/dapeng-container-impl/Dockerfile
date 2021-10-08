@@ -1,5 +1,5 @@
 #soa-container:base
-FROM harbor.kuaisuwang.com.cn/system/jdk8:5.0
+FROM harbor.kuaisuwang.com.cn/system/jdk8:6.1
 MAINTAINER ever@iplas.com.cn
 
 # Setting Envirnoment
@@ -11,7 +11,5 @@ RUN mkdir -p "$CONTAINER_HOME"
 COPY target/dapeng-container /dapeng-container
 
 WORKDIR "$CONTAINER_HOME/bin"
-
-COPY fluent-bit/etc /opt/fluent-bit/etc
 
 RUN chmod +x *.sh
