@@ -230,10 +230,10 @@ public class DapengContainer implements Container {
         }
 
         registerPlugin(nettyPlugin);
-        registerPlugin(pluginLoader);
         registerPlugin(zookeeperPlugin);
         registerPlugin(taskSchedulePlugin);
         registerPlugin(springAppLoader);
+        registerPlugin(pluginLoader);
         registerPlugin(mbeanAgentPlugin);
 
         //add messagePlugin
