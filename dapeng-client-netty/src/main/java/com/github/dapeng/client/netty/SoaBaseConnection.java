@@ -385,7 +385,9 @@ public abstract class SoaBaseConnection implements SoaConnection {
             return new Result<>(null,
                     new SoaException(SoaCode.RespDecodeUnknownError, SoaCode.RespDecodeUnknownError.getMsg()));
         } finally {
-            responseBuf.release();
+            if(responseBuf != null && responseBuf.refCnt() > 0){
+                responseBuf.release();
+            }
         }
     }
 
