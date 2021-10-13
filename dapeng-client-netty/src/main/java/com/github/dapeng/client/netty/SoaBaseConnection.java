@@ -100,9 +100,7 @@ public abstract class SoaBaseConnection implements SoaConnection {
                 } finally {
                     InvocationContextImpl.Factory.removeCurrentInstance();
 
-                    if(requestBuf != null && requestBuf.refCnt() > 0){
-                        requestBuf.release();
-                    }
+                    releaseByteBuf(requestBuf);
                 }
             }
 
@@ -201,6 +199,7 @@ public abstract class SoaBaseConnection implements SoaConnection {
                         Result<RESP> result = new Result<>(null,
                                 new SoaException(SoaCode.ClientUnKnown, SoaCode.ClientUnKnown.getMsg()));
                         ctx.setAttribute("result", result);
+                        releaseByteBuf(requestBuf);
                         onExit(ctx, getPrevChain(ctx));
                         return;
                     }
@@ -239,6 +238,9 @@ public abstract class SoaBaseConnection implements SoaConnection {
 
                     ctx.setAttribute("result", result);
 
+                    // 当出现异常的时候释放，与同步方法不一样的地方在于如果在finally里释放将有概率在未处理完成的时候就释放了导致报错refcnt: 0
+                    releaseByteBuf(requestBuf);
+
                     // fix  sendAsync  json序列化异常  LogFilter respCode == null
                     InvocationContextImpl invocationContext = (InvocationContextImpl) ctx.getAttribute("context");
                     InvocationInfoImpl lastInfo = (InvocationInfoImpl) invocationContext.lastInvocationInfo();
@@ -253,10 +255,6 @@ public abstract class SoaBaseConnection implements SoaConnection {
                 } finally {
                     InvocationContextImpl.Factory.removeCurrentInstance();
                     MDC.remove(SoaSystemEnvProperties.KEY_LOGGER_SESSION_TID);
-
-                    if(requestBuf != null && requestBuf.refCnt() > 0){
-                        requestBuf.release();
-                    }
                 }
             }
 
@@ -385,9 +383,7 @@ public abstract class SoaBaseConnection implements SoaConnection {
             return new Result<>(null,
                     new SoaException(SoaCode.RespDecodeUnknownError, SoaCode.RespDecodeUnknownError.getMsg()));
         } finally {
-            if(responseBuf != null && responseBuf.refCnt() > 0){
-                responseBuf.release();
-            }
+            releaseByteBuf(responseBuf);
         }
     }
 
@@ -449,5 +445,15 @@ public abstract class SoaBaseConnection implements SoaConnection {
                         PooledByteBufAllocator.DEFAULT : UnpooledByteBufAllocator.DEFAULT;
         final ByteBuf requestBuf = allocator.buffer(8192);
         return requestBuf;
+    }
+
+    /**
+     * 释放ByteBuf
+     * @param byteBuf
+     */
+    private void releaseByteBuf(ByteBuf byteBuf){
+        if(byteBuf != null && byteBuf.refCnt() > 0){
+            byteBuf.release();
+        }
     }
 }
