@@ -117,7 +117,7 @@ public class SoaHeaderHelper {
         if (invocationContext.userIp().isPresent()) {
             header.setUserIp(invocationContext.userIp());
         }
-        if (invocationContext.sessionTid().isPresent()) {
+        if ((invocationCtxProxy == null || !invocationCtxProxy.sessionTid().isPresent()) && invocationContext.sessionTid().isPresent()) {
             header.setSessionTid(invocationContext.sessionTid());
         }
 
