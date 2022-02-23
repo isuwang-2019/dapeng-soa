@@ -40,10 +40,17 @@ NETTY_OPTS=" -Dio.netty.leakDetectionLevel=advanced "
 #GC_OPTS=" -XX:+HeapDumpOnOutOfMemoryError -XX:+PrintGCDateStamps -Xloggc:$LOGDIR/gc-$PRGNAME-$ADATE.log -XX:+PrintGCDetails -XX:+PrintPromotionFailure -XX:+PrintGCApplicationStoppedTime -Dlog.dir=$PRGDIR/.."
 
 
-if [ "$JAVA_VERSION" \< "11" ]; then
-    GC_OPTS=" -XX:NewRatio=1 -XX:SurvivorRatio=30 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$LOGDIR/$ADATE.hprof -XX:+PrintGCDateStamps  -XX:+PrintPromotionFailure -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCDetails -Dlog.dir=$PRGDIR/.. -XX:+UseParallelGC -XX:+UseParallelOldGC"
-else
-    GC_OPTS=" -XX:NewRatio=1 -XX:SurvivorRatio=30 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$LOGDIR/$ADATE.hprof  -XX:+PrintGCDetails -Dlog.dir=$PRGDIR/.. -XX:+UnlockExperimentalVMOptions -XX:+UseZGC"
+if [ -z $GC_OPTS ]; then
+  if [ "$JAVA_VERSION" \< "11" ]; then
+      GC_OPTS=" -XX:NewRatio=1 -XX:SurvivorRatio=30 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$LOGDIR/$ADATE.hprof -XX:+PrintGCDateStamps  -XX:+PrintPromotionFailure -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCDetails -Dlog.dir=$PRGDIR/.. -XX:+UseParallelGC -XX:+UseParallelOldGC"
+  else
+      GC_OPTS=" -XX:NewRatio=1 -XX:SurvivorRatio=30 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$LOGDIR/$ADATE.hprof  -XX:+PrintGCDetails -Dlog.dir=$PRGDIR/.. -XX:+UnlockExperimentalVMOptions -XX:+UseZGC"
+  fi
+
+  GC_OPTS="$GC_OPTS -XX:MaxTenuringThreshold=3"
+
+  # 如果OldGen较大，加大YGC时扫描OldGen关联的卡片(每个card大小为512byte)，加快YGC速度，默认值256较低(256*512B)=128K
+  GC_OPTS="$GC_OPTS -XX:+UnlockDiagnosticVMOptions -XX:ParGCCardsPerStrideChunk=1024"
 fi
 
 
@@ -67,10 +74,7 @@ MEM_OPTS="$MEM_OPTS -Xss256k"
 #GC_OPTS="$GC_OPTS -XX:+ParallelRefProcEnabled -XX:+CMSParallelInitialMarkEnabled"
 
 # 根据应用的对象生命周期设定，减少事实上的老生代对象在新生代停留时间，加快YGC速度
-GC_OPTS="$GC_OPTS -XX:MaxTenuringThreshold=3"
 
-# 如果OldGen较大，加大YGC时扫描OldGen关联的卡片(每个card大小为512byte)，加快YGC速度，默认值256较低(256*512B)=128K
-GC_OPTS="$GC_OPTS -XX:+UnlockDiagnosticVMOptions -XX:ParGCCardsPerStrideChunk=1024"
 
 SOA_BASE="-Dsoa.base=$PRGDIR/../ -Dsoa.run.mode=native"
 
