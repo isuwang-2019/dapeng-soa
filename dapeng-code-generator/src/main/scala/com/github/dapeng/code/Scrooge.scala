@@ -56,7 +56,7 @@ object Scrooge {
     lazy val modelVersion: String = getParameterByName(args, "-modelVersion", Some(""))
 
     lazy val thriftFiles: Array[File] = getResourceFilePathArray(args, inDir)
-    lazy val resources = thriftFiles.map(_.getAbsolutePath)
+    lazy val resources: Array[String] = thriftFiles.map(_.getAbsolutePath)
 
 
 
@@ -106,8 +106,9 @@ object Scrooge {
           fileDel(new File(outDir), language)
         }
         val parserLanguage = if (language == "scala") "scala" else "java"
-        val services = new ThriftCodeParser(parserLanguage).toServices(resources, version,groupId,artifactId,modelVersion)
-        val structs = if (generateAll) new ThriftCodeParser(parserLanguage).getAllStructs(resources) else null
+
+        val services = new ThriftCodeParser(parserLanguage).toServices(resources, version,groupId,artifactId,modelVersion,inDir)
+        val structs = if (generateAll) new ThriftCodeParser(parserLanguage).getAllStructs(resources,inDir) else null
         val enums = if (generateAll) new ThriftCodeParser(parserLanguage).getAllEnums(resources) else null
 
         language match {

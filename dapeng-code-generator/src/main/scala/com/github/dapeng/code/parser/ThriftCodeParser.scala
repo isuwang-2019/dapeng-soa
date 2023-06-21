@@ -97,14 +97,14 @@ class ThriftCodeParser(var language: String) {
   }
 
   /**
-    * 获取生成器
-    *
-    * @param doc0        文档结构
-    * @param genHashcode 是否生成HashCode
-    * @return 生成器
-    */
-  private def getGenerator(doc0: Document, genHashcode: Boolean = false): ApacheJavaGenerator = {
-    new ApacheJavaGenerator(new ResolvedDocument(doc0, new TypeResolver()), "thrift", templateCache, genHashcode = genHashcode)
+   * 获取生成器
+   *
+   * @param doc0        文档结构
+   * @param genHashcode 是否生成HashCode
+   * @return 生成器
+   */
+  private def getGenerator(doc0: Document): ApacheJavaGenerator = {
+    new ApacheJavaGenerator(new ResolvedDocument(doc0, new TypeResolver()), "thrift", templateCache)
     //new ApacheJavaGenerator(Map(), "thrift", templateCache, genHashcode = genHashcode)
   }
 
@@ -442,16 +442,32 @@ class ThriftCodeParser(var language: String) {
     results
   }
 
-  def getAllStructs(resources: Array[String]): util.List[metadata.Struct] = {
+  def getAllStructs(resources: Array[String],inDir:String): util.List[metadata.Struct] = {
     resources.foreach(resource => {
       val doc = generateDoc(resource)
       docCache.put(resource.substring(resource.lastIndexOf(File.separator) + 1, resource.lastIndexOf(".")), doc)
+
+      doc.headers.toList.foreach {
+        case a: com.twitter.scrooge.ast.Include => {
+          if (a.filePath.startsWith("../")) {
+            val incluDoc = generateDoc(inDir + System.getProperty("file.separator") + a.filePath)
+
+            docCache.put(a.prefix.name,incluDoc)
+          }
+        }
+        case b => {
+          //              println(b.isInstanceOf[com.twitter.scrooge.ast.Include])
+        }
+      }
+
+
     })
 
-    docCache.values.foreach(doc => {
-      val generator = getGenerator(doc)
-      structCache.addAll(findStructs(doc, generator))
-    })
+    docCache.foreach{
+      case (docStr,doc)=>
+        val generator = getGenerator(doc)
+        structCache.addAll(findStructs(doc, generator))
+    }
     structCache.toList
   }
 
@@ -468,25 +484,39 @@ class ThriftCodeParser(var language: String) {
     enumCache.toList
   }
 
-  def toServices(resources: Array[String], serviceVersion: String,groupId:String="",artifactId:String="",modelVersion:String=""): util.List[metadata.Service] = {
+  def toServices(resources: Array[String], serviceVersion: String,groupId:String="",artifactId:String="",modelVersion:String="",inDir:String): util.List[metadata.Service] = {
     resources.foreach(resource => {
       val doc = generateDoc(resource)
-
       docCache.put(resource.substring(resource.lastIndexOf(File.separator) + 1, resource.lastIndexOf(".")), doc)
+
+      doc.headers.toList.foreach {
+        case a: com.twitter.scrooge.ast.Include => {
+          if (a.filePath.startsWith("../")) {
+            val incluDoc = generateDoc(inDir + System.getProperty("file.separator") + a.filePath)
+
+            docCache.put(a.prefix.name,incluDoc)
+          }
+        }
+        case b => {
+          //              println(b.isInstanceOf[com.twitter.scrooge.ast.Include])
+        }
+      }
+
     })
 
-    docCache.values.foreach(doc => {
-      val generator = getGenerator(doc)
+    docCache.foreach{
+      case (docStr,doc)=>
+        val generator = getGenerator(doc)
 
-      enumCache.addAll(findEnums(doc, generator))
-      structCache.addAll(findStructs(doc, generator))
-      serviceCache.addAll(findServices(doc, generator,groupId,artifactId,modelVersion))
+        enumCache.addAll(findEnums(doc, generator))
+        structCache.addAll(findStructs(doc, generator))
+        serviceCache.addAll(findServices(doc, generator,groupId,artifactId,modelVersion))
 
-      for (enum <- enumCache)
-        mapEnumCache.put(enum.getNamespace + "." + enum.getName, enum)
-      for (struct <- structCache)
-        mapStructCache.put(struct.getNamespace + "." + struct.getName, struct)
-    })
+        for (enum <- enumCache)
+          mapEnumCache.put(enum.getNamespace + "." + enum.getName, enum)
+        for (struct <- structCache)
+          mapStructCache.put(struct.getNamespace + "." + struct.getName, struct)
+    }
 
     for (index <- (0 until serviceCache.size())) {
       val service = serviceCache.get(index)
@@ -497,11 +527,11 @@ class ThriftCodeParser(var language: String) {
       val loadedStructs = new util.HashSet[String]()
       for (method <- service.getMethods) {
         for (field <- method.getRequest.getFields) {
-          getAllStructs(field.getDataType, structSet)
+          getAllStructs(field.getDataType, structSet,inDir)
           getAllEnums(field.getDataType, enumSet, loadedStructs)
         }
         for (field <- method.getResponse.getFields) {
-          getAllStructs(field.getDataType, structSet)
+          getAllStructs(field.getDataType, structSet,inDir)
           getAllEnums(field.getDataType, enumSet, loadedStructs)
         }
 
@@ -519,12 +549,12 @@ class ThriftCodeParser(var language: String) {
   }
 
   /**
-    * 递归添加所有struct
-    *
-    * @param dataType
-    * @param structSet
-    */
-  def getAllStructs(dataType: metadata.DataType, structSet: java.util.HashSet[metadata.Struct]): Unit = {
+   * 递归添加所有struct
+   *
+   * @param dataType
+   * @param structSet
+   */
+  def getAllStructs(dataType: metadata.DataType, structSet: java.util.HashSet[metadata.Struct],inDir:String): Unit = {
 
     if (dataType.getKind == DataType.KIND.STRUCT) {
       val struct = mapStructCache.get(dataType.getQualifiedName)
@@ -535,15 +565,15 @@ class ThriftCodeParser(var language: String) {
       structSet.add(struct)
 
       for (tmpField <- struct.getFields) {
-        getAllStructs(tmpField.getDataType, structSet)
+        getAllStructs(tmpField.getDataType, structSet,inDir)
       }
     }
     else if (dataType.getKind == DataType.KIND.SET || dataType.getKind == DataType.KIND.LIST) {
-      getAllStructs(dataType.getValueType, structSet)
+      getAllStructs(dataType.getValueType, structSet,inDir)
 
     } else if (dataType.getKind == DataType.KIND.MAP) {
-      getAllStructs(dataType.getKeyType, structSet)
-      getAllStructs(dataType.getValueType, structSet)
+      getAllStructs(dataType.getKeyType, structSet,inDir)
+      getAllStructs(dataType.getValueType, structSet,inDir)
     }
   }
 
