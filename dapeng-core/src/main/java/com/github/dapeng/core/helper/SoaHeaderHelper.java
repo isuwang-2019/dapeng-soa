@@ -139,19 +139,19 @@ public class SoaHeaderHelper {
                 if (!header.getUserIp().isPresent()) {
                     header.setUserIp(oriHeader.getUserIp());
                 }
-                if (!oriHeader.getCookies().isEmpty()) {
+                if (header.getCookies() == null || header.getCookies().isEmpty()) {
                     header.addCookies(oriHeader.getCookies());
                 }
-                if (!oriHeader.getCallerFrom().isPresent()){
+                if (!header.getCallerFrom().isPresent()) {
                     header.setCallerFrom(oriHeader.getCallerFrom());
                 }
-                if (!oriHeader.getOperatorName().isPresent()){
+                if (!header.getOperatorName().isPresent()) {
                     header.setOperatorName(oriHeader.getOperatorName());
                 }
-                if (!oriHeader.getCustomerId().isPresent()){
+                if (!header.getCustomerId().isPresent()) {
                     header.setCustomerId(oriHeader.getCustomerId());
                 }
-                if (!oriHeader.getCustomerName().isPresent()){
+                if (!header.getCustomerName().isPresent()) {
                     header.setCustomerName(oriHeader.getCustomerName());
                 }
 
