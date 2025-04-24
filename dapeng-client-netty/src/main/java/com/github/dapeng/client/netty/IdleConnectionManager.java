@@ -1,13 +1,14 @@
 package com.github.dapeng.client.netty;
 
-import io.netty.channel.Channel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import io.netty.channel.Channel;
 
 /**
  * Created by tangliu on 2016/2/2.
@@ -70,11 +71,21 @@ public class IdleConnectionManager {
 
     protected void checkIdleConnection() throws InterruptedException {
         Set<Channel> keys = channels.keySet();
-        keys.stream().filter(channel -> channels.get(channel).get() > 10).forEach(channel -> {
-            channel.close();
-            remove(channel);
-
-            LOGGER.info("channel:" + channel + " closed because of too much idle time");
+        keys.forEach(channel -> {
+            try {
+                AtomicInteger count = channels.get(channel);
+                if (count != null && count.get() > 10) {
+                    if (channel != null && channel.isActive()) {
+                        channel.close();
+                        remove(channel);
+                        LOGGER.info("channel:" + channel + " closed because of too much idle time");
+                    }
+                }
+            } catch (Exception e) {
+                LOGGER.warn("Error while checking channel: " + channel, e);
+                // 如果发生异常，从map中移除该channel
+                remove(channel);
+            }
         });
         //sleep, check per 10 seconds default
         Thread.sleep(DEFAULT_SLEEP_TIME);
