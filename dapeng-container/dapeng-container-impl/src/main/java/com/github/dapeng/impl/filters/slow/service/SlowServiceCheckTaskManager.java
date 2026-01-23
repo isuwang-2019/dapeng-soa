@@ -26,8 +26,8 @@ public class SlowServiceCheckTaskManager {
     private static final long MAX_PROCESS_TIME = SoaSystemEnvProperties.SOA_MAX_PROCESS_TIME;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:SSS");
 
-
-    private SlowServiceCheckTaskManager() {}
+    private SlowServiceCheckTaskManager() {
+    }
 
     static void addTask(SlowServiceCheckTask task) {
         tasks.add(task);
@@ -76,24 +76,29 @@ public class SlowServiceCheckTaskManager {
             final SlowServiceCheckTask task = iterator.next();
 
             long maxProcessTime = task.maxProcessTime.isPresent() ? task.maxProcessTime.get() : MAX_PROCESS_TIME;
-            MDC.put(SoaSystemEnvProperties.KEY_LOGGER_SESSION_TID, task.sessionTid.map(DapengUtil::longToHexStr).orElse("0"));
+            MDC.put(SoaSystemEnvProperties.KEY_LOGGER_SESSION_TID,
+                    task.sessionTid.map(DapengUtil::longToHexStr).orElse("0"));
 
             if (logger.isInfoEnabled()) {
-                logger.info("slow service check {}:{}:{};maxProcessTime:{} ", task.serviceName, task.versionName, task.methodName, maxProcessTime);
+                logger.debug("slow service check {}:{}:{};maxProcessTime:{} ", task.serviceName, task.versionName,
+                        task.methodName, maxProcessTime);
             }
 
             final long ptime = currentTime - task.startTime;
             if (ptime >= maxProcessTime) {
-//            if (true) {
+                // if (true) {
                 final StackTraceElement[] stackElements = task.currentThread.getStackTrace();
                 if (stackElements != null && stackElements.length > 0) {
                     final StringBuilder builder = new StringBuilder(task.toString());
-                    builder.append("--[" + currentTimeAsString + "]:task info:[" + task.serviceName + ":" + task.methodName + ":" + task.versionName + "]").append("\n");
+                    builder.append("--[" + currentTimeAsString + "]:task info:[" + task.serviceName + ":"
+                            + task.methodName + ":" + task.versionName + "]").append("\n");
                     final String firstStackInfo = stackElements[0].toString();
-                    if (lastStackInfo.containsKey(task.currentThread) && lastStackInfo.get(task.currentThread).equals(firstStackInfo)) {
+                    if (lastStackInfo.containsKey(task.currentThread)
+                            && lastStackInfo.get(task.currentThread).equals(firstStackInfo)) {
                         builder.append("Same as last check...");
                     } else {
-                        builder.append("-- The task has been executed ").append(ptime).append("ms and Currently is executing:");
+                        builder.append("-- The task has been executed ").append(ptime)
+                                .append("ms and Currently is executing:");
                         lastStackInfo.put(task.currentThread, firstStackInfo);
                         builder.append("\n   at ").append(firstStackInfo);
                         for (int i = 1; i < stackElements.length; i++) {
@@ -101,7 +106,7 @@ public class SlowServiceCheckTaskManager {
                         }
                     }
                     builder.append("\n").append("\n");
-                    logger.error("SlowProcess:{}", builder.toString());
+                    logger.debug("SlowProcess:{}", builder.toString());
                 }
             } else {
                 lastStackInfo.remove(task.currentThread);

@@ -51,11 +51,10 @@ public class NettyClient {
             final CompletableFuture<?> future;
         }
 
-        private static final Map<Integer, CompletableFuture<ByteBuf>> FUTURE_CACHES =
-                new ConcurrentHashMap<>();
-        private static final PriorityBlockingQueue<AsyncRequestWithTimeout> FUTURES_CACHES_WITH_TIMEOUT =
-                new PriorityBlockingQueue<>(256,
-                        (o1, o2) -> (int) (o1.expired - o2.expired));
+        private static final Map<Integer, CompletableFuture<ByteBuf>> FUTURE_CACHES = new ConcurrentHashMap<>();
+        private static final PriorityBlockingQueue<AsyncRequestWithTimeout> FUTURES_CACHES_WITH_TIMEOUT = new PriorityBlockingQueue<>(
+                256,
+                (o1, o2) -> (int) (o1.expired - o2.expired));
 
         static void put(int seqId, CompletableFuture<ByteBuf> requestFuture) {
             FUTURE_CACHES.put(seqId, requestFuture);
@@ -99,9 +98,8 @@ public class NettyClient {
     }
 
     protected Bootstrap initBootstrap() {
-        AbstractByteBufAllocator allocator =
-                SoaSystemEnvProperties.SOA_POOLED_BYTEBUF ?
-                        PooledByteBufAllocator.DEFAULT : UnpooledByteBufAllocator.DEFAULT;
+        AbstractByteBufAllocator allocator = SoaSystemEnvProperties.SOA_POOLED_BYTEBUF ? PooledByteBufAllocator.DEFAULT
+                : UnpooledByteBufAllocator.DEFAULT;
         bootstrap = new Bootstrap();
         bootstrap.group(workerGroup);
         bootstrap.channel(NioSocketChannel.class);
@@ -110,8 +108,9 @@ public class NettyClient {
         bootstrap.handler(new ChannelInitializer<SocketChannel>() {
             @Override
             public void initChannel(SocketChannel ch) throws Exception {
-                ch.pipeline().addLast(new IdleStateHandler(readerIdleTimeSeconds, writerIdleTimeSeconds, allIdleTimeSeconds),
-                        new SoaFrameDecoder(), //粘包和断包处理
+                ch.pipeline().addLast(
+                        new IdleStateHandler(readerIdleTimeSeconds, writerIdleTimeSeconds, allIdleTimeSeconds),
+                        new SoaFrameDecoder(), // 粘包和断包处理
                         new SoaIdleHandler(),
                         new SoaClientHandler(callBack));
             }
@@ -130,7 +129,8 @@ public class NettyClient {
      */
     public ByteBuf send(Channel channel, int seqid, ByteBuf request, long timeout, String service) throws SoaException {
 
-        //means that this channel is not idle and would not managered by IdleConnectionManager
+        // means that this channel is not idle and would not managered by
+        // IdleConnectionManager
         IdleConnectionManager.remove(channel);
 
         CompletableFuture<ByteBuf> future = new CompletableFuture<>();
@@ -138,7 +138,8 @@ public class NettyClient {
         RequestQueue.put(seqid, future);
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("NettyClient::send, timeout:" + timeout + ", seqId:" + seqid + ",  to: " + channel.remoteAddress());
+            LOGGER.debug(
+                    "NettyClient::send, timeout:" + timeout + ", seqId:" + seqid + ",  to: " + channel.remoteAddress());
         }
 
         try {
@@ -150,21 +151,24 @@ public class NettyClient {
             if (!TransactionContext.hasCurrentInstance()) {
                 MDC.remove(SoaSystemEnvProperties.KEY_LOGGER_SESSION_TID);
             }
-            LOGGER.error("请求服务超时[" + service + "]，seqid:" + seqid);
+            // LOGGER.error("请求服务超时[" + service + "]，seqid:" + seqid);
+            LOGGER.error("请求服务超时{} seq:{} timeout:{}", service, seqid, timeout);
             throw new SoaException(SoaCode.ReqTimeOut.getCode(), "请求服务超时[" + service + "]");
         } catch (Throwable e) {
             // 如果在服务里面, 那么不清理MDC
             if (!TransactionContext.hasCurrentInstance()) {
                 MDC.remove(SoaSystemEnvProperties.KEY_LOGGER_SESSION_TID);
             }
-            throw new SoaException(SoaCode.ClientUnKnown, e.getMessage() == null ? SoaCode.ClientUnKnown.getMsg() : e.getMessage());
+            throw new SoaException(SoaCode.ClientUnKnown,
+                    e.getMessage() == null ? SoaCode.ClientUnKnown.getMsg() : e.getMessage());
         } finally {
             RequestQueue.remove(seqid);
         }
 
     }
 
-    public CompletableFuture<ByteBuf> sendAsync(Channel channel, int seqid, ByteBuf request, long timeout) throws Exception {
+    public CompletableFuture<ByteBuf> sendAsync(Channel channel, int seqid, ByteBuf request, long timeout)
+            throws Exception {
 
         IdleConnectionManager.remove(channel);
 
@@ -216,7 +220,6 @@ public class NettyClient {
         };
         asyncCheckTimeThread.start();
     }
-
 
     /**
      * 同步连接并返回channel

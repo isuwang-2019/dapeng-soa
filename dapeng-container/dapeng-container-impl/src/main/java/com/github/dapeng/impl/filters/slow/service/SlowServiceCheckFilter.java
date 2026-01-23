@@ -24,14 +24,13 @@ public class SlowServiceCheckFilter implements ContainerFilter {
             ctx.setAttach(this, "slowServiceCheckTask", task);
             SlowServiceCheckTaskManager.addTask(task);
             if (!SlowServiceCheckTaskManager.hasStarted()) {
-                //fixme lifecycle
+                // fixme lifecycle
                 SlowServiceCheckTaskManager.start();
-                logger.info("slow service check started");
+                logger.debug("slow service check started");
             }
         }
         next.onEntry(ctx);
     }
-
 
     @Override
     public void onExit(FilterContext ctx, FilterChain prev) throws SoaException {
@@ -41,6 +40,5 @@ public class SlowServiceCheckFilter implements ContainerFilter {
         }
         prev.onExit(ctx);
     }
-
 
 }
