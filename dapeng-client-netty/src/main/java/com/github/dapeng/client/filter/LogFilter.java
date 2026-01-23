@@ -1,6 +1,5 @@
 package com.github.dapeng.client.filter;
 
-
 import com.github.dapeng.core.InvocationContextImpl;
 import com.github.dapeng.core.InvocationInfoImpl;
 import com.github.dapeng.core.SoaException;
@@ -50,16 +49,19 @@ public class LogFilter implements Filter {
                 MDC.put(SoaSystemEnvProperties.THREAD_LEVEL_KEY, logLevel);
             }
 
-            MDC.put(SoaSystemEnvProperties.KEY_LOGGER_SESSION_TID, invocationContext.sessionTid().map(DapengUtil::longToHexStr).orElse("0"));
+            MDC.put(SoaSystemEnvProperties.KEY_LOGGER_SESSION_TID,
+                    invocationContext.sessionTid().map(DapengUtil::longToHexStr).orElse("0"));
 
-           if(!"getServiceMetadata".equals(invocationContext.methodName())) {
-               String infoLog = "request[seqId:" + invocationContext.seqId() + ", server:" + filterContext.getAttribute("serverInfo") + "]:"
-                       + "service[" + invocationContext.serviceName()
-                       + "]:version[" + invocationContext.versionName()
-                       + "]:method[" + invocationContext.methodName() + "]";
+            if (!"getServiceMetadata".equals(invocationContext.methodName())) {
+                String infoLog = String.format("request[seqId:%d, service[%s]:version[%s]:method[%s]:timeout[%d]",
+                        invocationContext.seqId(),
+                        invocationContext.serviceName(),
+                        invocationContext.versionName(),
+                        invocationContext.methodName(),
+                        invocationContext.timeout().orElse(0));
 
-               LOGGER.info(getClass().getSimpleName() + "::onEntry," + infoLog);
-           }
+                LOGGER.info("{}::onEntry,{}", getClass().getSimpleName(), infoLog);
+            }
         } finally {
             next.onEntry(filterContext);
         }
@@ -73,18 +75,25 @@ public class LogFilter implements Filter {
             InvocationInfoImpl invocationInfo = (InvocationInfoImpl) invocationContext.lastInvocationInfo();
             invocationInfo.serviceTime(System.currentTimeMillis() - startTime);
 
-            String infoLog = "response[seqId:" + invocationContext.seqId() + ", respCode:" + invocationInfo.responseCode() + ", server: " + filterContext.getAttribute("serverInfo") + "]:"
-                    + "service[" + invocationContext.serviceName()
-                    + "]:version[" + invocationContext.versionName()
-                    + "]:method[" + invocationContext.methodName()
-                    + "] cost[total:" + invocationInfo.serviceTime()
-                    + ", calleeTime1:" + invocationInfo.calleeTime1()
-                    + ", calleeTime2:" + invocationInfo.calleeTime2()
-                    + ", calleeIp: " + transferIp(invocationInfo.calleeIp());
+            String infoLog = String.format(
+                    "response[seqId:%d, respCode:%s, server: %s]:service[%s]:version[%s]:method[%s] cost[total:%d, calleeTime1:%d, calleeTime2:%d, calleeIp: %s]",
+                    invocationContext.seqId(),
+                    invocationInfo.responseCode(),
+                    filterContext.getAttribute("serverInfo"),
+                    invocationContext.serviceName(),
+                    invocationContext.versionName(),
+                    invocationContext.methodName(),
+                    invocationInfo.serviceTime(),
+                    invocationInfo.calleeTime1(),
+                    invocationInfo.calleeTime2(),
+                    transferIp(invocationInfo.calleeIp()));
+
             if (SoaSystemEnvProperties.SOA_NORMAL_RESP_CODE.equals(invocationInfo.responseCode())) {
-                if(!"getServiceMetadata".equals(invocationContext.methodName())) { LOGGER.info(getClass().getSimpleName() + "::onExit," + infoLog);}
+                if (!"getServiceMetadata".equals(invocationContext.methodName())) {
+                    LOGGER.info("{}::onExit,{}", getClass().getSimpleName(), infoLog);
+                }
             } else {
-                LOGGER.error(getClass().getSimpleName() + "::onExit," + infoLog);
+                LOGGER.error("{}::onExit,{}", getClass().getSimpleName(), infoLog);
             }
         } finally {
             try {

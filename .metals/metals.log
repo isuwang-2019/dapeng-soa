@@ -1,0 +1,108 @@
+2026.01.23 11:00:02 INFO  Started: Metals version 1.6.4 in folders '/Users/yeqingwen/iplasFile/workspace/wework-service, /Users/yeqingwen/iplasFile/workspace/dapeng-soa' for client Cursor 1.105.1.
+2026.01.23 11:00:11 INFO  Database: jdbc:h2:file:/Users/yeqingwen/iplasFile/workspace/wework-service/.metals/metals (H2 2.4)
+2026.01.23 11:00:11 WARN  Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026.01.23 11:00:11 INFO  Successfully validated 7 migrations (execution time 00:00.096s)
+2026.01.23 11:00:11 INFO  Current version of schema "PUBLIC": 7
+2026.01.23 11:00:11 INFO  Schema "PUBLIC" is up to date. No migration necessary.
+2026.01.23 11:00:11 INFO  Database: jdbc:h2:file:/Users/yeqingwen/iplasFile/workspace/dapeng-soa/.metals/metals (H2 2.4)
+2026.01.23 11:00:11 WARN  Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026.01.23 11:00:11 INFO  Schema history table "PUBLIC"."flyway_schema_history" does not exist yet
+2026.01.23 11:00:11 INFO  Successfully validated 7 migrations (execution time 00:00.015s)
+2026.01.23 11:00:11 INFO  Creating Schema History table "PUBLIC"."flyway_schema_history" ...
+2026.01.23 11:00:11 INFO  Current version of schema "PUBLIC": << Empty Schema >>
+2026.01.23 11:00:11 INFO  Migrating schema "PUBLIC" to version "1 - Create tables"
+2026.01.23 11:00:11 INFO  Migrating schema "PUBLIC" to version "2 - Server discovery"
+2026.01.23 11:00:11 INFO  Migrating schema "PUBLIC" to version "3 - Jar symbols"
+2026.01.23 11:00:11 INFO  Migrating schema "PUBLIC" to version "4 - Fingerprints"
+2026.01.23 11:00:12 INFO  Migrating schema "PUBLIC" to version "5 - Jar type hierarchy"
+2026.01.23 11:00:12 INFO  Migrating schema "PUBLIC" to version "6 - Delete indices"
+2026.01.23 11:00:12 INFO  Migrating schema "PUBLIC" to version "7 - Toplevel members"
+2026.01.23 11:00:12 INFO  Successfully applied 7 migrations to schema "PUBLIC", now at version v7 (execution time 00:00.124s)
+2026.01.23 11:00:12 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/SoaConnectionImpl.java. Using fallback presentation compiler.
+2026.01.23 11:00:15 WARN  no build target for: /Users/yeqingwen/iplasFile/workspace/wework-service/src/main/scala/com/isuwang/soa/wework/util/OfferChatRoomMsgUtil.scala
+2026.01.23 11:00:15 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/wework-service/src/main/scala/com/isuwang/soa/wework/util/OfferChatRoomMsgUtil.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2026.01.23 11:00:19 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/wework-service/src/main/scala/com/isuwang/soa/wework/util/OfferChatRoomMsgUtil.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2026.01.23 11:00:19 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/wework-service/src/main/scala/com/isuwang/soa/wework/util/OfferChatRoomMsgUtil.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2026.01.23 11:00:19 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/wework-service/src/main/scala/com/isuwang/soa/wework/util/OfferChatRoomMsgUtil.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2026.01.23 11:00:19 WARN  no build target for: /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/SoaConnectionImpl.java
+2026.01.23 11:00:19 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/wework-service/src/main/scala/com/isuwang/soa/wework/util/OfferChatRoomMsgUtil.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2026.01.23 11:00:21 INFO  time: code lens generation in 2.35s
+2026.01.23 11:00:21 INFO  time: code lens generation in 2.35s
+2026.01.23 11:00:22 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/wework-service/src/main/scala/com/isuwang/soa/wework/util/OfferChatRoomMsgUtil.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2026.01.23 11:00:22 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/wework-service/src/main/scala/com/isuwang/soa/wework/util/OfferChatRoomMsgUtil.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2026.01.23 11:00:22 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/wework-service/src/main/scala/com/isuwang/soa/wework/util/OfferChatRoomMsgUtil.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2026.01.23 11:00:22 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/wework-service/src/main/scala/com/isuwang/soa/wework/util/OfferChatRoomMsgUtil.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2026.01.23 11:00:23 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/wework-service/src/main/scala/com/isuwang/soa/wework/util/OfferChatRoomMsgUtil.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2026.01.23 11:00:23 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/wework-service/src/main/scala/com/isuwang/soa/wework/util/OfferChatRoomMsgUtil.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2026.01.23 11:00:26 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/wework-service/src/main/scala/com/isuwang/soa/wework/util/OfferChatRoomMsgUtil.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2026.01.23 11:00:26 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/wework-service/src/main/scala/com/isuwang/soa/wework/util/OfferChatRoomMsgUtil.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2026.01.23 11:00:26 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/wework-service/src/main/scala/com/isuwang/soa/wework/util/OfferChatRoomMsgUtil.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2026.01.23 11:01:09 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/wework-service/src/main/scala/com/isuwang/soa/wework/util/OfferChatRoomMsgUtil.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2026.01.23 11:01:12 WARN  no build target for: /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/SoaConnectionImpl.java
+2026.01.23 11:01:15 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/SoaConnectionImpl.java. Using fallback presentation compiler.
+2026.01.23 11:01:22 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/SoaConnectionImpl.java. Using fallback presentation compiler.
+2026.01.23 11:01:22 WARN  no build target for: /Users/yeqingwen/iplasFile/workspace/wework-service/src/main/scala/com/isuwang/soa/wework/util/OfferChatRoomMsgUtil.scala
+2026.01.23 11:01:22 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/wework-service/src/main/scala/com/isuwang/soa/wework/util/OfferChatRoomMsgUtil.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2026.01.23 11:01:23 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/wework-service/src/main/scala/com/isuwang/soa/wework/util/OfferChatRoomMsgUtil.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2026.01.23 11:01:30 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/wework-service/src/main/scala/com/isuwang/soa/wework/util/OfferChatRoomMsgUtil.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2026.01.23 11:01:31 WARN  no build target for: /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/NettyClient.java
+2026.01.23 11:01:31 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/NettyClient.java. Using fallback presentation compiler.
+2026.01.23 11:01:37 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/NettyClient.java. Using fallback presentation compiler.
+2026.01.23 11:01:37 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/NettyClient.java. Using fallback presentation compiler.
+2026.01.23 11:01:37 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/NettyClient.java. Using fallback presentation compiler.
+2026.01.23 11:01:38 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/NettyClient.java. Using fallback presentation compiler.
+2026.01.23 11:01:38 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/NettyClient.java. Using fallback presentation compiler.
+2026.01.23 11:01:39 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/NettyClient.java. Using fallback presentation compiler.
+2026.01.23 11:01:39 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/NettyClient.java. Using fallback presentation compiler.
+2026.01.23 11:02:03 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/NettyClient.java. Using fallback presentation compiler.
+2026.01.23 11:02:04 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/NettyClient.java. Using fallback presentation compiler.
+2026.01.23 11:02:04 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/NettyClient.java. Using fallback presentation compiler.
+2026.01.23 11:02:04 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/NettyClient.java. Using fallback presentation compiler.
+2026.01.23 11:02:04 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/NettyClient.java. Using fallback presentation compiler.
+2026.01.23 11:02:04 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/NettyClient.java. Using fallback presentation compiler.
+2026.01.23 11:02:04 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/NettyClient.java. Using fallback presentation compiler.
+2026.01.23 11:02:04 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/NettyClient.java. Using fallback presentation compiler.
+2026.01.23 11:02:55 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/NettyClient.java. Using fallback presentation compiler.
+2026.01.23 11:02:55 WARN  no build target for: /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-container/dapeng-container-impl/src/main/java/com/github/dapeng/impl/filters/slow/service/SlowServiceCheckFilter.java
+2026.01.23 11:02:55 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-container/dapeng-container-impl/src/main/java/com/github/dapeng/impl/filters/slow/service/SlowServiceCheckFilter.java. Using fallback presentation compiler.
+2026.01.23 11:02:55 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-container/dapeng-container-impl/src/main/java/com/github/dapeng/impl/filters/slow/service/SlowServiceCheckFilter.java. Using fallback presentation compiler.
+2026.01.23 11:02:58 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-container/dapeng-container-impl/src/main/java/com/github/dapeng/impl/filters/slow/service/SlowServiceCheckFilter.java. Using fallback presentation compiler.
+2026.01.23 11:02:58 WARN  no build target for: /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-container/dapeng-container-impl/src/main/java/com/github/dapeng/impl/filters/slow/service/SlowServiceCheckTaskManager.java
+2026.01.23 11:02:58 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-container/dapeng-container-impl/src/main/java/com/github/dapeng/impl/filters/slow/service/SlowServiceCheckTaskManager.java. Using fallback presentation compiler.
+2026.01.23 11:02:58 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-container/dapeng-container-impl/src/main/java/com/github/dapeng/impl/filters/slow/service/SlowServiceCheckTaskManager.java. Using fallback presentation compiler.
+2026.01.23 11:03:02 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-container/dapeng-container-impl/src/main/java/com/github/dapeng/impl/filters/slow/service/SlowServiceCheckTaskManager.java. Using fallback presentation compiler.
+2026.01.23 11:03:02 WARN  no build target for: /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-container/dapeng-container-impl/src/main/java/com/github/dapeng/impl/filters/slow/service/SlowServiceCheckFilter.java
+2026.01.23 11:03:02 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-container/dapeng-container-impl/src/main/java/com/github/dapeng/impl/filters/slow/service/SlowServiceCheckFilter.java. Using fallback presentation compiler.
+2026.01.23 11:03:02 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-container/dapeng-container-impl/src/main/java/com/github/dapeng/impl/filters/slow/service/SlowServiceCheckFilter.java. Using fallback presentation compiler.
+2026.01.23 11:13:53 WARN  no build target for: /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-core/src/main/java/com/github/dapeng/core/helper/SoaSystemEnvProperties.java
+2026.01.23 11:13:53 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-container/dapeng-container-impl/src/main/java/com/github/dapeng/impl/filters/slow/service/SlowServiceCheckFilter.java. Using fallback presentation compiler.
+2026.01.23 11:13:53 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-core/src/main/java/com/github/dapeng/core/helper/SoaSystemEnvProperties.java. Using fallback presentation compiler.
+2026.01.23 11:13:55 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-core/src/main/java/com/github/dapeng/core/helper/SoaSystemEnvProperties.java. Using fallback presentation compiler.
+2026.01.23 11:13:56 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-core/src/main/java/com/github/dapeng/core/helper/SoaSystemEnvProperties.java. Using fallback presentation compiler.
+2026.01.23 11:16:14 WARN  no build target for: /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/SoaConnectionPoolImpl.java
+2026.01.23 11:16:14 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-core/src/main/java/com/github/dapeng/core/helper/SoaSystemEnvProperties.java. Using fallback presentation compiler.
+2026.01.23 11:16:14 WARN  Running javac-semanticdb failed for file:///Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/SoaConnectionPoolImpl.java. Output:
+
+2026.01.23 11:16:14 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/SoaConnectionPoolImpl.java. Using fallback presentation compiler.
+2026.01.23 11:16:14 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/SoaConnectionPoolImpl.java. Using fallback presentation compiler.
+2026.01.23 11:16:41 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/SoaConnectionPoolImpl.java. Using fallback presentation compiler.
+2026.01.23 11:16:41 INFO  Created report: Optional[file:///Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/SoaConnectionPoolImpl.java]
+2026.01.23 11:16:41 INFO  empty definition using pc, found symbol in pc: java/util/Optional#isPresent(). (full report at: "/Users/yeqingwen/iplasFile/workspace/dapeng-soa/.metals/.reports/metals-full/2026-01-23/r_empty-definition_11-16-41-711.md")
+2026.01.23 11:16:48 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/SoaConnectionPoolImpl.java. Using fallback presentation compiler.
+2026.01.23 11:16:48 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/SoaConnectionPoolImpl.java. Using fallback presentation compiler.
+2026.01.23 11:16:49 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/SoaConnectionPoolImpl.java. Using fallback presentation compiler.
+2026.01.23 11:16:50 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/SoaConnectionPoolImpl.java. Using fallback presentation compiler.
+2026.01.23 11:16:50 INFO  empty definition using pc, found symbol in pc: java/util/Optional#isPresent(). (full report at: "/Users/yeqingwen/iplasFile/workspace/dapeng-soa/.metals/.reports/metals-full/2026-01-23/r_empty-definition_11-16-41-711.md")
+2026.01.23 11:17:05 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/SoaConnectionPoolImpl.java. Using fallback presentation compiler.
+2026.01.23 11:18:11 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/SoaConnectionPoolImpl.java. Using fallback presentation compiler.
+2026.01.23 11:18:11 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/SoaConnectionPoolImpl.java. Using fallback presentation compiler.
+2026.01.23 11:18:12 WARN  Running javac-semanticdb failed for file:///Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/SoaConnectionPoolImpl.java. Output:
+
+2026.01.23 11:18:40 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/SoaConnectionPoolImpl.java. Using fallback presentation compiler.
+2026.01.23 11:19:02 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/SoaConnectionPoolImpl.java. Using fallback presentation compiler.
+2026.01.23 11:19:02 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/wework-service/src/main/scala/com/isuwang/soa/wework/util/OfferChatRoomMsgUtil.scala. Using presentation compiler with project's scala-library version: 3.3.6
+2026.01.23 11:19:02 WARN  no build target for: /Users/yeqingwen/iplasFile/workspace/wework-service/src/main/scala/com/isuwang/soa/wework/util/OfferChatRoomMsgUtil.scala
+2026.01.23 11:19:02 INFO  no build target found for /Users/yeqingwen/iplasFile/workspace/dapeng-soa/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/SoaConnectionPoolImpl.java. Using fallback presentation compiler.
+2026.01.23 11:19:04 INFO  time: code lens generation in 1.93s
+2026.01.23 11:19:04 INFO  time: code lens generation in 1.93s
+2026.01.23 11:19:04 INFO  time: code lens generation in 1.93s

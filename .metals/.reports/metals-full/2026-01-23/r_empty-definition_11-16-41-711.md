@@ -1,3 +1,14 @@
+error id: file://<WORKSPACE>/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/SoaConnectionPoolImpl.java:java/util/Optional#isPresent().
+file://<WORKSPACE>/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/SoaConnectionPoolImpl.java
+empty definition using pc, found symbol in pc: java/util/Optional#isPresent().
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 13924
+uri: file://<WORKSPACE>/dapeng-client-netty/src/main/java/com/github/dapeng/client/netty/SoaConnectionPoolImpl.java
+text:
+```scala
 package com.github.dapeng.client.netty;
 
 import com.github.dapeng.cookie.CookieExecutor;
@@ -347,18 +358,16 @@ public class SoaConnectionPoolImpl implements SoaConnectionPool {
 
         Optional<Long> timeout;
         if (invocationTimeout.isPresent()) {
-            // invocationTimeout 允许突破 SOA_MAX_TIMEOUT 限制，直接返回
-            return invocationTimeout.get().longValue();
+            timeout = invocationTimeout.map(Long::valueOf);
         } else if (zkTimeout.isPresent()) {
             timeout = zkTimeout;
-        } else if (envTimeout.isPresent()) {
+        } else if (envTimeout.isP@@resent()) {
             timeout = envTimeout;
         } else if (idlTimeout.isPresent()) {
             timeout = idlTimeout;
         } else {
             timeout = Optional.of(defaultTimeout);
         }
-        // 其他超时配置受 SOA_MAX_TIMEOUT 限制
         return timeout.get() >= maxTimeout ? maxTimeout : timeout.get();
     }
 
@@ -438,3 +447,9 @@ public class SoaConnectionPoolImpl implements SoaConnectionPool {
         }
     }
 }
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: java/util/Optional#isPresent().

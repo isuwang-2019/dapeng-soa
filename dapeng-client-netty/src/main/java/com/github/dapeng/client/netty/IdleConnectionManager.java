@@ -35,7 +35,7 @@ public class IdleConnectionManager {
             }
         }
 
-        //channels.putIfAbsent(channel, new AtomicInteger(0)).incrementAndGet();
+        // channels.putIfAbsent(channel, new AtomicInteger(0)).incrementAndGet();
     }
 
     public static void remove(Channel channel) {
@@ -78,16 +78,16 @@ public class IdleConnectionManager {
                     if (channel != null && channel.isActive()) {
                         channel.close();
                         remove(channel);
-                        LOGGER.info("channel:" + channel + " closed because of too much idle time");
+                        LOGGER.debug("channel:{} closed because of too much idle time", channel);
                     }
                 }
             } catch (Exception e) {
-                LOGGER.warn("Error while checking channel: " + channel, e);
-                // 如果发生异常，从map中移除该channel
+                LOGGER.warn("Error while checking channel: {}", channel, e);
+                // if an exception occurs, remove the channel from the map
                 remove(channel);
             }
         });
-        //sleep, check per 10 seconds default
+        // sleep, check per 10 seconds default
         Thread.sleep(DEFAULT_SLEEP_TIME);
     }
 }
